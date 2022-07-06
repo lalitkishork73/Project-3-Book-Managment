@@ -30,7 +30,7 @@ const createUser = async function(req, res) {
             return res.status(400).send({ status: false, message: 'please enter the valid mobile number' })
         }
 
-        const checkMobile = await userMoel.findOne({ phone: phone })
+        const checkMobile = await userModel.findOne({ phone: phone })
         if (checkMobile) {
             return res.status(400).send({ status: false, message: 'mobile number already exist' })
         }
