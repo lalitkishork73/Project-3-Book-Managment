@@ -113,10 +113,12 @@ const loginUser = async function(req, res) {
             },
             "Secretkey", { expiresIn: "10d" }
         );
+
         res.setHeader("x-api-key", token);
         res
             .status(200)
             .send({ status: true, msg: "author login successfuly", data: token });
+
     } catch (err) {
         return res.status(500).send({ status: false, msg: err.message })
     }
