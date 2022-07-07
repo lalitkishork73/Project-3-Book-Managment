@@ -100,7 +100,7 @@ const loginUser = async function(req, res) {
             return res.status(400).send({ status: false, message: 'password is required' })
         }
 
-        const checkEmail = await userModel.findOne({ email: email, password: password })
+        const checkEmail = await userModel.findOne({ email: email, password: password, isDeleted: false })
         if (!checkEmail) {
             return res.status(404).send({ status: false, message: 'given User data not Found ' })
         }
@@ -108,7 +108,7 @@ const loginUser = async function(req, res) {
 
         let token = jwt.sign({
                 userId: checkEmail._id.toString(),
-                library: "OpenWorld",
+                System: "Book Management",
                 organisation: "BooksWorld",
             },
             "Secretkey", { expiresIn: "10d" }
