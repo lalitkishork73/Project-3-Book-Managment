@@ -1,35 +1,28 @@
 const bookModel = require("../models/booksModel");
+const userModel = require("../models/userModel");
 
 const {
     isValid,
     isValidRequestBody,
-    isvalidEmail,
-    moblieRegex,
+    isValidObjectId,
+    ISBNregex,
 } = require("../validators/validation");
 
-const validator = require("../validators/validation");
+//<======================== createBooks ===========================================>//
 
 const createBooks = async function(req, res) {
     try {
         const requestbody = req.body;
-        if (!validator.isValidRequestBody(requestbody)) {
+        if (!isValidRequestBody(requestbody)) {
             return res
                 .status(400)
                 .send({ status: false, message: "requestbody is empty" });
         }
 
-        const {
-            title,
-            excerpt,
-            userId,
-            ISBN,
-            category,
-            subcategory,
-            deletedAt,
-            releasedAt,
-        } = requestbody;
+        const { title, excerpt, userId, ISBN, category, subcategory, releasedAt } =
+        requestbody;
 
-        if (!validator.isValid(title)) {
+        if (!isValid(title)) {
             return res
                 .status(400)
                 .send({ status: false, message: " title must be present...." });
@@ -44,17 +37,22 @@ const createBooks = async function(req, res) {
             });
         }
 
-        if (!validator.isValid(excerpt)) {
+        if (!isValid(excerpt)) {
             return res
                 .status(400)
                 .send({ status: false, message: " excerpt must be present" });
         }
 
-        if (!validator.isValid(userId)) {
+        if (!isValid(userId)) {
             return res
                 .status(400)
                 .send({ status: false, message: " excerpt is required" });
         }
+
+        if (!isValidObjectId(userId))
+            return res
+                .status(400)
+                .send({ status: false, message: `${userId}  is not a valid` });
 
         const user = await userModel.findById(userId);
 
@@ -64,39 +62,36 @@ const createBooks = async function(req, res) {
                 .send({ status: true, message: "user does not exist" });
         }
 
-        if (!validator.isValid(ISBN)) {
+        if (!isValid(ISBN)) {
             return res
                 .status(400)
                 .send({ status: false, message: " ISBN is required" });
         }
 
-        const isbnIsunique = await bookModel.findOne({ ISBN: ISBN });
+        const isbnIsUnique = await bookModel.findOne({
+            ISBN: ISBN,
+            isDeleted: false,
+        });
 
-        if (isbnIsunique) {
+        if (isbnIsUnique) {
             return res
                 .status(400)
                 .send({ status: false, message: "ISBN is already present" });
         }
 
-        if (!validator.isValid(category)) {
+        if (!isValid(category)) {
             return res
                 .status(400)
                 .send({ status: false, message: " plz provide category " });
         }
 
-        if (!validator.isValid(subcategory)) {
+        if (!isValid(subcategory)) {
             return res
                 .status(400)
                 .send({ status: false, message: "  subcategory must be present " });
         }
 
-        if (!validator.isValid(deletedAt)) {
-            return res
-                .status(400)
-                .send({ status: false, message: " excerpt is required" });
-        }
-
-        if (!validator.isValid(releasedAt)) {
+        if (!isValid(releasedAt)) {
             return res
                 .status(400)
                 .send({ status: false, message: "relesedAt must be present " });
@@ -109,30 +104,188 @@ const createBooks = async function(req, res) {
             data: newbookdata,
         });
     } catch (err) {
-        return res.status(500).send({ status: false, message: "server error " });
+        return res.status(500).send({ status: false, message: err.message });
     }
 };
+
+//<======================== Get all Books ===========================================>//
 
 const getAllBooks = async function(req, res) {
-    try {} catch (err) {
+    try {
+        let list = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
+        if (list.length == 0) {
+            res.status(404).send({ status: false, message: "Books not found" });
+        }
+
+        let query = req.query;
+
+        if (!query) return res.status(200).send({ status: true, data: list });
+
+        //==getting sorted book-list with query params==//
+        let userId = query.userId;
+        let category = query.category;
+        let subcategory = query.subcategory;
+
+        //==validating req parameter==//
+        const filter = { isDeleted: false };
+
+        if (isValid(userId)) {
+            if (!isValidObjectId(userId)) {
+                return res.status(400).send({
+                    status: false,
+                    message: `User id ${userId} is not valid`,
+                });
+            }
+            filter["userId"] = userId;
+        }
+
+        if (isValid(category)) {
+            filter["category"] = category.toLowerCase();
+        }
+
+        if (isValid(subcategory)) {
+            let subArr = subcategory
+                .trim()
+                .split(",")
+                .map((element) => element.trim().toLowerCase());
+            filter["subcategory"] = { $all: subArr };
+        }
+
+        //--finding and sorting books--//
+        let booklist = await bookModel
+            .find(filter, {
+                _id: 1,
+                title: 1,
+                excerpt: 1,
+                userId: 1,
+                category: 1,
+                subcategory: 1,
+                reviews: 1,
+                releasedAt: 1,
+            })
+            .sort({ title: 1 });
+
+        if (booklist.length == 0)
+            return res
+                .status(404)
+                .send({ status: false, message: "Books not found." });
+
+        res
+            .status(200)
+            .send({ status: true, message: "Books list", data: booklist });
+    } catch (err) {
         return res.status(500).send({ status: false, message: "server error " });
     }
 };
+
+//<======================== Get Books ID ===========================================>//
 
 const getBookById = async function(req, res) {
-    try {} catch (err) {
-        return res.status(500).send({ status: false, message: "server error " });
+    try {
+        let bookId = req.params.bookId;
+        if (!isValid(bookId))
+            return res
+                .status(400)
+                .send({ status: false, message: "Book Id Required." });
+        if (!isValidObjectId(bookId))
+            return res
+                .status(400)
+                .send({ status: false, message: `${bookId}  is not a valid.` });
+
+        //==-getting book by book id==//
+        let bookList = await bookModel.findOne({ _id: bookId, isDeleted: false });
+        if (!bookList)
+            return res
+                .status(404)
+                .send({ status: false, message: "Books not found." });
+
+        return res.status(200).send({ status: true, data: bookList });
+
+        //==destructuring to get only required keys ==//
+    } catch (err) {
+        return res.status(500).send({ status: false, message: err.message });
     }
 };
+
+//<======================== Update Book by ID ===========================================>//
 
 const updateBookById = async function(req, res) {
-    try {} catch (err) {
+    try {
+        const bookId = req.params.bookId;
+        const bodyData = req.body;
+
+        if (!isValidObjectId(bookId)) {
+            return res
+                .status(400)
+                .send({ status: false, message: "Please Enter Valid Book Id" });
+        }
+
+        if (!isValidRequestBody(bodyData))
+            return res
+                .status(400)
+                .send({ status: false, message: "No user input to update" });
+
+        const { title, excerpt, releaseDate, ISBN } = bodyData;
+
+        if (title) {
+            const checkTitle = await bookModel.findOne({
+                title: title,
+                isDeleted: false,
+            });
+
+            if (checkTitle)
+                return res.status(409).send({
+                    status: false,
+                    message: "Book with this Title already exists",
+                });
+        }
+
+        if (ISBN) {
+            if (!ISBNregex(ISBN))
+                return res
+                    .status(400)
+                    .send({ status: false, message: "please provide valid ISBN" });
+
+            const checkISBN = await bookModel.findOne({
+                ISBN: ISBN,
+                isDeleted: false,
+            });
+
+            if (checkISBN)
+                return res.status(409).send({
+                    status: false,
+                    message: "Book with this ISBN already exists",
+                });
+        }
+
+        const bookData = await bookModel.findOneAndUpdate({ _id: bookId, isDeleted: false }, {
+            title: title,
+            excerpt: excerpt,
+            releasedAt: releaseDate,
+            ISBN: ISBN,
+        }, { new: true });
+
+        res.status(200).send({ status: true, message: "Success", data: bookData });
+    } catch (err) {
         return res.status(500).send({ status: false, message: "server error " });
     }
 };
 
+//<======================== Delete Book by ID ===========================================>//
+
 const deleteBookById = async function(req, res) {
-    try {} catch (err) {
+    try {
+        let Id = req.params.bookId;
+
+        const deleteBook = await bookModel.findOneAndUpdate({ _id: Id, isDeleted: false }, { isDeleted: true, deletedAt: new Date() }, { new: true });
+        if (!deleteBook)
+            return res
+                .status(404)
+                .send({ status: false, message: "Book not found or Already Deleted" });
+        return res
+            .status(200)
+            .send({ status: true, message: "Success", data: deleteBook });
+    } catch (err) {
         return res.status(500).send({ status: false, message: "server error " });
     }
 };

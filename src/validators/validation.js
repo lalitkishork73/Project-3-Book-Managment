@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const isValidRequestBody = function(requestBody) {
     return Object.keys(requestBody).length > 0;
@@ -20,14 +20,22 @@ const isvalidEmail = function(gmail) {
 
 const moblieRegex = function(mobile) {
     let regex =
-        /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([ -]?)\d{3}([ -]?)\d{4})$/;
+        /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([-]?)\d{3}([-]?)\d{4})$/;
     return regex.test(mobile);
 };
 
-
+const ISBNregex = function(ISBN) {
+    let regex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+    return regex.test(ISBN);
+};
 
 const titleEnum = function(title) {
     return ["Mr", "Mrs", "Miss"].indexOf(title) !== -1;
+};
+
+let isValidObjectId = function(objectId) {
+    if (!ObjectId.isValid(objectId)) return false;
+    return true;
 };
 
 module.exports = {
@@ -36,4 +44,6 @@ module.exports = {
     isvalidEmail,
     moblieRegex,
     titleEnum,
+    ISBNregex,
+    isValidObjectId,
 };
