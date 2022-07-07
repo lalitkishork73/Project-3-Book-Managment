@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -17,17 +17,18 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: true,
         match: [/^([+]\d{10})?\d{15}$/, "Enter 10 Digit Valid Mobile Number"],
-        unique: true
-
-
+        unique: true,
     },
 
     email: {
         type: String,
         required: true,
-        match: [/^\w+([\.-]?\w+)@\w+([\. -]?\w+)(\.\w{2,3})+$/, 'Please fill a valid email address'],
+        match: [
+            /^\w+([\.-]?\w+)@\w+([\. -]?\w+)(\.\w{2,3})+$/,
+            "Please fill a valid email address",
+        ],
         unique: true,
-        lowercase: true
+        lowercase: true,
     },
 
     password: {
@@ -35,23 +36,22 @@ const UserSchema = new mongoose.Schema({
         required: true,
         minLen: 8,
         maxLen: 15,
-
     },
 
     address: {
         street: {
             type: String,
-            trim: true
+            trim: true,
         },
         city: {
             type: String,
-            trim: true
+            trim: true,
         },
         pincode: {
             type: String,
-            trim: true
+            trim: true,
         },
     },
-}, { timestamps: true })
+}, { timestamps: true });
 
-module.exports = mongoose.model("User", UserSchema)
+module.exports = mongoose.model("User", UserSchema);
