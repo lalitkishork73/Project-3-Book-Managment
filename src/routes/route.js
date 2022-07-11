@@ -1,19 +1,18 @@
-const { Router } = require("express");
 const express = require("express");
 const router = express.Router();
 
 const { createUser, loginUser } = require("../controllers/userController");
 const {
-    createBooks,
-    getAllBooks,
-    getBookById,
-    updateBookById,
-    deleteBookById,
+  createBooks,
+  getAllBooks,
+  getBookById,
+  updateBookById,
+  deleteBookById,
 } = require("../controllers/booksController");
 const {
-    reviewByBookId,
-    reviewUpdateByBookId,
-    reviewDeleteByBookId,
+  reviewByBookId,
+  reviewUpdateByBookId,
+  reviewDeleteByBookId,
 } = require("../controllers/reviewController");
 const { authentication, authorisation } = require("../middlewares/auth");
 
