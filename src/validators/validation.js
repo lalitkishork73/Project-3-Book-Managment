@@ -1,5 +1,7 @@
 const ObjectId = require("mongoose").Types.ObjectId;
 
+//<======================== Validators =====================================>//
+
 const isValidRequestBody = function (requestBody) {
   return Object.keys(requestBody).length > 0;
 };
@@ -12,7 +14,7 @@ const isValid = function (value) {
   return true;
 };
 
-// <------------------------------User Validation-------------------------------------------->
+
 const isvalidEmail = function (gmail) {
   let regex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/; //.test(gmail);
   return regex.test(gmail);

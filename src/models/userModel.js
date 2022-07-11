@@ -1,4 +1,8 @@
 const mongoose = require("mongoose");
+
+//<============================== Users Schema ================================>//
+
+
 const UserSchema = new mongoose.Schema(
   {
     title: {
