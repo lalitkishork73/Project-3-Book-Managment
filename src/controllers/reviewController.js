@@ -3,24 +3,23 @@ const {
     isValid,
     isValidRequestBody,
     isvalidEmail,
-    moblieRegex,
 } = require("../validators/validation");
 
 const reviewByBookId = async function(req, res) {
     try {} catch (err) {
-        return res.status(500).send({ status: false, message: "server error " });
+        return res.status(500).send({ status: false, message: err.message });
     }
 };
 
 const reviewUpdateByBookId = async function(req, res) {
     try {} catch (err) {
-        return res.status(500).send({ status: false, message: "server error " });
+        return res.status(500).send({ status: false, message: err.message });
     }
 };
 
 const reviewDeleteByBookId = async function(req, res) {
     try {} catch (err) {
-        return res.status(500).send({ status: false, message: "server error " });
+        return res.status(500).send({ status: false, message: err.message });
     }
 };
 

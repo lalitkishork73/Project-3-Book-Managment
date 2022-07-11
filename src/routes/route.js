@@ -22,11 +22,11 @@ router.post("/register", createUser);
 router.post("/login", loginUser);
 
 // Books APIs
-router.post("/books", createBooks);
-router.get("/books", getAllBooks);
-router.get("/books/:bookId", getBookById);
-router.put("/books/:bookId", updateBookById);
-router.delete("/books/:bookId", deleteBookById);
+router.post("/books", authentication, createBooks);
+router.get("/books", authentication, getAllBooks);
+router.get("/books/:bookId", authentication, getBookById);
+router.put("/books/:bookId", authentication, authorisation, updateBookById);
+router.delete("/books/:bookId", authentication, authorisation, deleteBookById);
 
 // Review APIs
 router.post("/books/:bookId/review", reviewByBookId);
