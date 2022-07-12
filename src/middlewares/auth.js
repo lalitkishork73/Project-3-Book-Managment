@@ -13,7 +13,7 @@ const authentication = async function (req, res, next) {
     if (!token) {
       return res
         .status(403)
-        .send({ status: false, msg: "Warning Token Must Be present" });
+        .send({ status: false, message: "Warning Token Must Be present" });
     }
 
     let decodedToken = jwt.verify(token, "Secretkey");
@@ -21,13 +21,13 @@ const authentication = async function (req, res, next) {
     if (!decodedToken) {
       return res
         .status(500)
-        .send({ status: false, msg: "Warning invalid Token" });
+        .send({ status: false, message: "Warning invalid Token" });
     }
 
     req["userId"] = LoginUserId;
     next();
   } catch (err) {
-    res.status(500).send({ status: false, msg: err.message });
+    res.status(500).send({ status: false, message: err.message });
   }
 };
 
@@ -41,7 +41,7 @@ const authorisation = async function (req, res, next) {
     if (!isValidObjectId(bookId)) {
       return res
         .status(400)
-        .send({ status: false, msg: `Book id ${bookId} is invalid` });
+        .send({ status: false, message: `Book id ${bookId} is invalid` });
     }
     const findUserId = await bookModel.findOne({ _id: bookId });
     if (!findUserId)
@@ -50,11 +50,11 @@ const authorisation = async function (req, res, next) {
     const { userId } = findUserId;
 
     if (tokenId.toString() !== userId.toString()) {
-      return res.status(403).send({ status: false, msg: "User not Found" });
+      return res.status(403).send({ status: false, message: "User not Found" });
     }
     next();
   } catch (err) {
-    res.status(500).send({ status: false, msg: err.message });
+    res.status(500).send({ status: false, message: err.message });
   }
 };
 

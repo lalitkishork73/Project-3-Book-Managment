@@ -8,6 +8,7 @@ let {
   isvalidEmail,
   moblieRegex,
   titleEnum,
+  isValidPassword,
 } = require("../validators/validation");
 
 //<=========================== Create User=============================>//
@@ -16,7 +17,6 @@ const createUser = async function (req, res) {
   try {
     const requestbody = req.body;
     const { title, name, phone, email, password, address } = requestbody;
-    console.log(address.street);
 
     if (!isValidRequestBody(requestbody)) {
       return res
@@ -32,7 +32,7 @@ const createUser = async function (req, res) {
     if (!titleEnum(title)) {
       return res.status(400).send({
         status: false,
-        msg: "Is not valid title provide Mr, Mrs, Miss ",
+        message: "Is not valid title provide Mr, Mrs, Miss ",
       });
     }
     if (!isValid(name)) {
@@ -50,7 +50,7 @@ const createUser = async function (req, res) {
     if (!moblieRegex(phone)) {
       return res.status(400).send({
         status: false,
-        message: "please enter the valid mobile number",
+        message: "Please enter the valid mobile number it must be 10 Digit",
       });
     }
 
@@ -58,7 +58,7 @@ const createUser = async function (req, res) {
     if (checkMobile) {
       return res
         .status(400)
-        .send({ status: false, message: "mobile number already exist" });
+        .send({ status: false, message: "mobile number already exist " });
     }
 
     if (!isValid(email)) {
@@ -68,49 +68,52 @@ const createUser = async function (req, res) {
     }
 
     if (!isvalidEmail(email)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please enter the valid email..." });
+      return res.status(400).send({
+        status: false,
+        message: "Please enter the valid email Example: example12@.gmail.com ",
+      });
     }
 
     const checkEmail = await userModel.findOne({ email: email });
     if (checkEmail) {
       return res
         .status(400)
-        .send({ status: false, message: "email is already exist" });
+        .send({ status: false, message: "Email is already exist" });
     }
 
     if (!isValid(password)) {
       return res
         .status(400)
-        .send({ status: false, message: "password is required" });
+        .send({ status: false, message: "Password is required" });
     }
 
-    if (!isValid(address.street)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please provide proper street" });
+    if (!isValidPassword(password))
+      return res.status(400).send({
+        status: false,
+        msg: `Password:|${password}| must includes special character[@$!%?&], one uppercase, one lowercase, one number and should be mimimum 8 to 15 characters long| example: Example@12`,
+      });
+
+    //<============>>>> User without address <<<<================>//
+    if (!address) {
+      const userDataN = { title, name, phone, email, password };
+      const saveUser = await userModel.create(userDataN);
+      return res.status(201).send({
+        status: true,
+        message: "sucessfully saved",
+        data: saveUser,
+      });
     }
 
-    if (!isValid(address.city)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please provide city name" });
-    }
-    if (!isValid(address.pincode)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please provide pincode" });
-    }
+    //<============>>>> User with address <<<<====================>//
 
     const userData = await userModel.create(requestbody);
     return res.status(201).send({
       status: true,
-      message: "sucessfully save user data",
+      message: "sucessfully saved",
       data: userData,
     });
-  } catch {
-    return res.status(500).send({ status: false, msg: err.message });
+  } catch (err) {
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 
@@ -138,7 +141,7 @@ const loginUser = async function (req, res) {
     if (!isvalidEmail(email)) {
       return res
         .status(400)
-        .send({ status: false, message: "Please enter the valid email " });
+        .send({ status: false, message: "Please enter the valid email  Example: example12@.gmail.com " });
     }
 
     if (!isValid(password)) {
@@ -147,6 +150,12 @@ const loginUser = async function (req, res) {
         .send({ status: false, message: "password is required" });
     }
 
+    if (!isValidPassword(password))
+      return res.status(400).send({
+        status: false,
+        msg: `Password:|${password}| must includes special character[@$!%?&], one uppercase, one lowercase, one number and should be mimimum 8 to 15 characters long example: Example@12`,
+      });
+
     const checkEmail = await userModel.findOne({
       email: email,
       password: password,
@@ -154,7 +163,7 @@ const loginUser = async function (req, res) {
     });
     if (!checkEmail) {
       return res
-        .status(404)
+        .status(404)  
         .send({ status: false, message: "given User data not Found " });
     }
 
@@ -171,9 +180,9 @@ const loginUser = async function (req, res) {
     res.setHeader("x-api-key", token);
     res
       .status(200)
-      .send({ status: true, msg: "author login successfuly", data: token });
+      .send({ status: true, message: "author login successfuly", data: token });
   } catch (err) {
-    return res.status(500).send({ status: false, msg: err.message });
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 

@@ -23,7 +23,7 @@ const reviewByBookId = async function (req, res) {
     if (!isValidObjectId(params))
       return res
         .status(400)
-        .send({ status: false, message: `${bookId}  is not a valid.` });
+        .send({ status: false, message: `${params}  is not a valid.` });
 
     let requestReviewBody = req.body;
 
@@ -64,7 +64,6 @@ const reviewByBookId = async function (req, res) {
       id_: params,
       isDeleted: false,
     });
-    console.log(searchbook);
 
     if (!searchbook) {
       return res
@@ -72,7 +71,7 @@ const reviewByBookId = async function (req, res) {
         .send({ status: false, message: "book does not present in database" });
     }
 
-    const bookId = searchbook._id;
+    const bookId = params;
 
     const reviewedAt = new Date();
 
@@ -80,18 +79,52 @@ const reviewByBookId = async function (req, res) {
 
     const reviewdata = await reviewModel.create(data);
     if (reviewdata) {
-      await bookModel.findOneAndUpdate(
-        { _id: bookId },
+      const updatedReview = await bookModel.findOneAndUpdate(
+        { _id: bookId, isDeleted: false },
         { $inc: { reviews: 1 } },
         { new: true }
       );
-    }
 
-    return res.status(201).send({
-      status: true,
-      message: "add reveiw sucessfully ",
-      data: reviewdata,
-    });
+      if (!updatedReview) {
+        return res
+          .status(404)
+          .send({ status: false, message: "reviwe is Deleted or not exist" });
+      }
+
+      const {
+        title,
+        excerpt,
+        userId,
+        category,
+        reviews,
+        subcategory,
+        deletedAt,
+        isDeleted,
+        releasedAt,
+        createdAt,
+        updatedAt,
+      } = updatedReview;
+      let details = {
+        title,
+        excerpt,
+        userId,
+        category,
+        reviews,
+        subcategory,
+        deletedAt,
+        isDeleted,
+        releasedAt,
+        createdAt,
+        updatedAt,
+      };
+
+      details["reviewData"] = reviewdata;
+      return res.status(201).send({
+        status: true,
+        message: "Success ",
+        data: details,
+      });
+    }
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
@@ -196,13 +229,11 @@ const reviewUpdateByBookId = async function (req, res) {
       }
     }
 
-    await reviewModel.findOneAndUpdate(
+    const updatedReview = await reviewModel.findOneAndUpdate(
       { _id: reviewId },
       { review: review, rating: rating, reviewedBy: reviewedBy },
       { new: true }
     );
-
-    const Reviews = await reviewModel.find({ bookId: bookId });
 
     let ReviwedBook = {
       title: checkBook.title,
@@ -211,7 +242,7 @@ const reviewUpdateByBookId = async function (req, res) {
       userId: checkBook.userId,
       category: checkBook.category,
       review: checkBook.reviews,
-      reviewData: Reviews,
+      reviewData: updatedReview,
     };
     return res.status(200).send({
       status: true,
@@ -270,6 +301,7 @@ const reviewDeleteByBookId = async function (req, res) {
 
     const checkReview = await reviewModel.findOne({
       _id: reviewId,
+      isDeleted: false,
     });
 
     if (!checkReview) {
@@ -280,7 +312,7 @@ const reviewDeleteByBookId = async function (req, res) {
 
     const deleteReview = await reviewModel.findOneAndUpdate(
       { _id: reviewId, isDeleted: false },
-      { isDeleted: true, deletedAt: new Date() },
+      { isDeleted: true },
       { new: true }
     );
 
