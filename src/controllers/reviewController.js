@@ -177,6 +177,7 @@ const reviewUpdateByBookId = async function (req, res) {
 
     const checkReview = await reviewModel.findOne({
       _id: reviewId,
+      isDeleted: false,
     });
 
     if (!checkReview) {
