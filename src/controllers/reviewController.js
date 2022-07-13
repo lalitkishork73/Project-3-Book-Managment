@@ -51,7 +51,7 @@ const reviewByBookId = async function (req, res) {
     if (!(rating >= 1 && rating <= 5)) {
       return res
         .status(400)
-        .send({ status: true, message: "number must be 1 to 5" });
+        .send({ status: false, message: "number must be 1 to 5" });
     }
 
     if (!isValid(review)) {
