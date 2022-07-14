@@ -12,7 +12,7 @@ const authentication = async function (req, res, next) {
     let token = req.headers["x-Api-key"] || req.headers["x-api-key"];
     if (!token) {
       return res
-        .status(403)
+        .status(404)
         .send({ status: false, message: "Warning Token Must Be present" });
     }
 
@@ -20,7 +20,7 @@ const authentication = async function (req, res, next) {
     let LoginUserId = decodedToken.userId;
     if (!decodedToken) {
       return res
-        .status(500)
+        .status(401)
         .send({ status: false, message: "Warning invalid Token" });
     }
 

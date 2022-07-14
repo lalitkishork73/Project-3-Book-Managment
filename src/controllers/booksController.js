@@ -145,26 +145,32 @@ const getAllBooks = async function (req, res) {
 
     const filter = { isDeleted: false };
 
-    if (isValid(userId)) {
-      if (!isValidObjectId(userId)) {
-        return res.status(400).send({
-          status: false,
-          message: `User id ${userId} is not valid`,
-        });
+    if (userId) {
+      if (isValid(userId)) {
+        if (!isValidObjectId(userId)) {
+          return res.status(400).send({
+            status: false,
+            message: `User id ${userId} is not valid`,
+          });
+        }
+        filter["userId"] = userId;
       }
-      filter["userId"] = userId;
     }
 
-    if (isValid(category)) {
-      filter["category"] = category.toLowerCase();
+    if (category) {
+      if (isValid(category)) {
+        filter["category"] = category.toLowerCase();
+      }
     }
 
-    if (isValid(subcategory)) {
-      let subCat = subcategory
-        .trim()
-        .split(",")
-        .map((element) => element.trim().toLowerCase());
-      filter["subcategory"] = { $all: subCat };
+    if (subcategory) {
+      if (isValid(subcategory)) {
+        let subCat = subcategory
+          .trim()
+          .split(",")
+          .map((element) => element.trim().toLowerCase());
+        filter["subcategory"] = { $all: subCat };
+      }
     }
 
     //--finding and sorting books--//
@@ -297,13 +303,14 @@ const updateBookById = async function (req, res) {
     const { title, excerpt, releasedAt, ISBN } = bodyData;
 
     //<============> TItle Validation <================>//
-    if (!isValid(title)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please Provide Title" });
-    }
 
     if (title) {
+      if (!isValid(title)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Please Provide Title" });
+      }
+
       const checkTitle = await bookModel.findOne({
         title: title,
         isDeleted: false,
@@ -317,31 +324,37 @@ const updateBookById = async function (req, res) {
     }
 
     //<============> Excerpt Validation <================>//
-    if (!isValid(excerpt)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please Provide Title" });
+
+    if (excerpt) {
+      if (!isValid(excerpt)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Please Provide Title" });
+      }
     }
 
     //<============> Released AT Validation <================>//
-    if (!isValid(releasedAt)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please Provide Title" });
-    }
-    if (!isValidDate(releasedAt))
-      return res
-        .status(400)
-        .send({ status: false, message: "Realease date format is not valid" });
 
-    //<============> ISBN Validation <================>//
-    if (!isValid(ISBN)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please Provide ISBN" });
+    if (releasedAt) {
+      if (!isValid(releasedAt)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Please Provide Title" });
+      }
+      if (!isValidDate(releasedAt))
+        return res.status(400).send({
+          status: false,
+          message: "Realease date format is not valid",
+        });
     }
+    //<============> ISBN Validation <================>//
 
     if (ISBN) {
+      if (!isValid(ISBN)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Please Provide ISBN" });
+      }
       if (!ISBNregex(ISBN))
         return res.status(400).send({
           status: false,

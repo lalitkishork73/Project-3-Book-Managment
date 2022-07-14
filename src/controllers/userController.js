@@ -94,6 +94,7 @@ const createUser = async function (req, res) {
       });
 
     //<============>>>> User without address <<<<================>//
+
     if (!address) {
       const userDataN = { title, name, phone, email, password };
       const saveUser = await userModel.create(userDataN);
@@ -105,6 +106,12 @@ const createUser = async function (req, res) {
     }
 
     //<============>>>> User with address <<<<====================>//
+
+    if (!isValid(address)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "address Must be Object" });
+    }
 
     const userData = await userModel.create(requestbody);
     return res.status(201).send({
@@ -141,7 +148,11 @@ const loginUser = async function (req, res) {
     if (!isvalidEmail(email)) {
       return res
         .status(400)
-        .send({ status: false, message: "Please enter the valid email  Example: example12@.gmail.com " });
+        .send({
+          status: false,
+          message:
+            "Please enter the valid email  Example: example12@.gmail.com ",
+        });
     }
 
     if (!isValid(password)) {
@@ -153,7 +164,7 @@ const loginUser = async function (req, res) {
     if (!isValidPassword(password))
       return res.status(400).send({
         status: false,
-        msg: `Password:|${password}| must includes special character[@$!%?&], one uppercase, one lowercase, one number and should be mimimum 8 to 15 characters long example: Example@12`,
+        msg: `Password:|${password}| must includes special character[@$!%?&], one uppercase, one lowercase, one number and should be mimimum 8 to 15 characters long for example: Example@12`,
       });
 
     const checkEmail = await userModel.findOne({
@@ -163,7 +174,7 @@ const loginUser = async function (req, res) {
     });
     if (!checkEmail) {
       return res
-        .status(404)  
+        .status(404)
         .send({ status: false, message: "given User data not Found " });
     }
 
