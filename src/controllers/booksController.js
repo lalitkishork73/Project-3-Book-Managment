@@ -11,12 +11,14 @@ const {
   ISBNregex,
   isValidDate,
 } = require("../validators/validation");
+// const { uploadFile } = require("./awsController");
 
 //<======================== createBooks ===========================================>//
 
 const createBooks = async function (req, res) {
   try {
     const requestbody = req.body;
+    // let files = req.bookCover;
     if (!isValidRequestBody(requestbody)) {
       return res
         .status(400)
@@ -113,6 +115,9 @@ const createBooks = async function (req, res) {
         status: false,
         message: "Please provide date in YYYY-MM-DD format",
       });
+
+    // let uploadedFileURL = await uploadFile(files);
+    // requestbody["bookCover"] = uploadedFileURL;
 
     const newbookdata = await bookModel.create(requestbody);
     return res.status(201).send({

@@ -6,8 +6,10 @@ const route = require("./routes/route");
 const mongoose = require("mongoose");
 const app = express();
 const testPort = 3000;
+const multer = require("multer");
 
 app.use(bodyParser.json());
+app.use(multer().any())
 
 mongoose
   .connect(
