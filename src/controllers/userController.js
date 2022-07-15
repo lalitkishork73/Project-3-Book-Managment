@@ -107,11 +107,7 @@ const createUser = async function (req, res) {
 
     //<============>>>> User with address <<<<====================>//
 
-    if (!isValid(address)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "address Must be Object" });
-    }
+   
 
     const userData = await userModel.create(requestbody);
     return res.status(201).send({
