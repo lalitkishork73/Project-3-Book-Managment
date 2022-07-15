@@ -21,7 +21,7 @@ const authentication = async function (req, res, next) {
     if (!decodedToken) {
       return res
         .status(401)
-        .send({ status: false, message: "Warning invalid Token" });
+        .send({ status: false, message: "Warning unauthorized" });
     }
 
     req["userId"] = LoginUserId;

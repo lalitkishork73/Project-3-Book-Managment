@@ -322,7 +322,7 @@ const updateBookById = async function (req, res) {
       });
 
       if (checkTitle)
-        return res.status(404).send({
+        return res.status(400).send({
           status: false,
           message: "Book with this Title already exists",
         });
@@ -334,7 +334,7 @@ const updateBookById = async function (req, res) {
       if (!isValid(excerpt)) {
         return res
           .status(400)
-          .send({ status: false, message: "Please Provide Title" });
+          .send({ status: false, message: "Please Provide exxerpt" });
       }
     }
 
@@ -344,7 +344,7 @@ const updateBookById = async function (req, res) {
       if (!isValid(releasedAt)) {
         return res
           .status(400)
-          .send({ status: false, message: "Please Provide Title" });
+          .send({ status: false, message: "Please Provide realsed at" });
       }
       if (!isValidDate(releasedAt))
         return res.status(400).send({
