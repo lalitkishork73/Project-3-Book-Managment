@@ -11,14 +11,14 @@ const {
   ISBNregex,
   isValidDate,
 } = require("../validators/validation");
-// const { uploadFile } = require("./awsController");
+const { uploadFile } = require("./awsController");
 
 //<======================== createBooks ===========================================>//
 
 const createBooks = async function (req, res) {
   try {
     const requestbody = req.body;
-    // let files = req.bookCover;
+    // let files = req.files;
     if (!isValidRequestBody(requestbody)) {
       return res
         .status(400)
@@ -42,6 +42,9 @@ const createBooks = async function (req, res) {
         message: "Title is already present please provide unique title",
       });
     }
+    // if (req.files.length == 0) {
+    //      return res.status(400).send({ status: false, message: "bookCover is required" })
+    //  };
 
     if (!isValid(excerpt)) {
       return res
@@ -116,8 +119,8 @@ const createBooks = async function (req, res) {
         message: "Please provide date in YYYY-MM-DD format",
       });
 
-    // let uploadedFileURL = await uploadFile(files);
-    // requestbody["bookCover"] = uploadedFileURL;
+    /* let uploadedFileURL = await uploadFile(files[0]);
+    requestbody["bookCover"] = uploadedFileURL; */
 
     const newbookdata = await bookModel.create(requestbody);
     return res.status(201).send({

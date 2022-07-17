@@ -1,4 +1,4 @@
-/* const aws = require("aws-sdk")
+const aws = require("aws-sdk")
 
 aws.config.update({
     accessKeyId: "AKIAY3L35MCRVFM24Q7U",
@@ -27,4 +27,4 @@ let uploadFile = async (file) => {
     })
 }
 
-module.exports = { uploadFile } */
+module.exports = { uploadFile }
