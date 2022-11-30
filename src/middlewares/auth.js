@@ -16,14 +16,19 @@ const authentication = async function (req, res, next) {
         .send({ status: false, message: "Warning Token Must Be present" });
     }
 
-    let decodedToken = jwt.verify(token, "Secretkey");
-    let LoginUserId = decodedToken.userId;
-    if (!decodedToken) {
-      return res
-        .status(401)
-        .send({ status: false, message: "Warning unauthorized" });
-    }
+    let decodedToken;
+    await jwt.verify(token, "Secretkey", (err, decode) => {
+      if (err) {
+        return res
+          .status(401).send({ status: false, message: "unauthorized" });
+      }
+      else{
+        decodedToken = decode;
+      }
 
+    });
+    let LoginUserId = decodedToken.userId;
+    
     req["userId"] = LoginUserId;
     next();
   } catch (err) {
