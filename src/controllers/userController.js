@@ -41,10 +41,10 @@ const createUser = async function (req, res) {
         .send({ status: false, message: "name is required" });
     }
 
-    if (!isValid(phone)) {
+    if (isValid(phone)) {
       return res
         .status(400)
-        .send({ status: false, message: "Please enter the mobile number" });
+        .send({ status: false, message: "Please enter the mobile number lalit" });
     }
 
     if (!moblieRegex(phone)) {
