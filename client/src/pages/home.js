@@ -5,7 +5,7 @@ import Homenavebar from '../components/homeNavebar';
 const Home = () => {
   return (
     <>
-      <Homenavebar/>
+      <Homenavebar />
     </>
   )
 }
