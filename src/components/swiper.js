@@ -25,23 +25,25 @@ const Swipertag = () => {
                 >
                     {
                         data.map((item) => <>
-                            <SwiperSlide key={item.id}>
-                                <img src={item.img} className='object-cover bg-center w-full h-80'/></SwiperSlide>
+                            <div key={item.id}>
+                                <SwiperSlide>
+                                    <img src={item.img} className='object-cover bg-center w-full h-80' /></SwiperSlide>
+                            </div>
                         </>)
 
                     }
                 </Swiper>
             </div>
             <div className="z-10 w-full h-[37%] absolute flex justify-center items-center text-gray-100 top-0">
-            <div className="flex flex-col p-5">
-              <h1 className="font-bold text-4xl text-center mb-6">
-                <span className="text-yellow-500 font-extrabold ">W</span>elcome To Your Library 
-              </h1>
-              <div className="flex justify-center">
-               <p className="text-center">Here you will find your life changing books!</p>
-              </div>
+                <div className="flex flex-col p-5">
+                    <h1 className="font-bold text-4xl text-center mb-6">
+                        <span className="text-yellow-500 font-extrabold ">W</span>elcome To Your Library
+                    </h1>
+                    <div className="flex justify-center">
+                        <p className="text-center">Here you will find your life changing books!</p>
+                    </div>
+                </div>
             </div>
-          </div>
 
         </>
     )
