@@ -35,5 +35,6 @@ router.delete("/books/:bookId", authentication, authorisation, deleteBookById);
 router.post("/books/:bookId/review", reviewByBookId);
 router.put("/books/:bookId/review/:reviewId", reviewUpdateByBookId);
 router.delete("/books/:bookId/review/:reviewId", reviewDeleteByBookId);
+router.get("/mbooks", getAllBooks);
 
 module.exports = router;
