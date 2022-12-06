@@ -36,6 +36,7 @@ const reviewByBookId = async function (req, res) {
       });
     }
 
+    console.log(typeof rating);
     if (!isValid(rating)) {
       return res
         .status(400)
@@ -47,6 +48,8 @@ const reviewByBookId = async function (req, res) {
         .status(400)
         .send({ status: false, message: "number must be 1 to 5" });
     }
+    rating = parseInt(rating);
+    console.log(typeof rating, rating);
 
     if (!isValid(review)) {
       return res
@@ -72,14 +75,14 @@ const reviewByBookId = async function (req, res) {
     const data = { bookId, reviewedBy, reviewedAt, rating, review };
 
     const reviewdata = await reviewModel.create(data);
-     const reviewUpdate = await reviewModel
-       .findOne({ bookId: bookId, _id: reviewdata._id, isDeleted: false })
-       .select(["-createdAt", "-updatedAt", "-__v", "-isDeleted"]);
-
+    const reviewUpdate = await reviewModel
+      .findOne({ bookId: bookId, _id: reviewdata._id, isDeleted: false })
+      .select(["-createdAt", "-updatedAt", "-__v", "-isDeleted"]);
+    const reviewData = await reviewModel.find();
     if (reviewdata) {
       const updatedReview = await bookModel.findOneAndUpdate(
         { _id: bookId, isDeleted: false },
-        { $inc: { reviews: 1 } },
+        { reviews: reviewData.length - 1 },
         { new: true }
       );
 
@@ -89,7 +92,7 @@ const reviewByBookId = async function (req, res) {
           .send({ status: false, message: "reviwe is Deleted or not exist" });
       }
 
-      const bookData = await bookModel.findById(bookId).select({__v:0,ISBN:0})
+      const bookData = await bookModel.findById(bookId).select({ __v: 0, ISBN: 0 })
       bookData._doc.reviewData = reviewUpdate
 
       return res.status(201).send({

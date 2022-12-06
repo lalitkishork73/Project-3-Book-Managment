@@ -7,13 +7,15 @@ const mongoose = require("mongoose");
 const app = express();
 const testPort = 3001;
 const multer = require("multer");
+const cors=require("cors");
 
 app.use(bodyParser.json());
 app.use(multer().any())
+app.use(cors());
 
 mongoose
   .connect(
-    "mongodb+srv://lalitkishork73:UzPr9bb6Wvxda9eC@cluster0.o2wavxe.mongodb.net/group31Database?retryWrites=true&w=majority",
+    "mongodb+srv://lalitkishork73:UzPr9bb6Wvxda9eC@cluster0.o2wavxe.mongodb.net/DataDB?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
   .then(() => console.log("MongoDb is connected"))

@@ -6,6 +6,8 @@ const isValidRequestBody = function (requestBody) {
   return Object.keys(requestBody).length > 0;
 };
 
+
+
 const isValid = function (value) {
   if (typeof value === "undefined" || value === null) return false;
   if (typeof value !== "string") return false;
@@ -13,6 +15,7 @@ const isValid = function (value) {
 
   return true;
 };
+
 
 const isvalidEmail = function (gmail) {
   let regex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/; //.test(gmail);

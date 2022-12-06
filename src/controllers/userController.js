@@ -37,24 +37,29 @@ const createUser = async function (req, res) {
     }
     if (!isValid(name)) {
       return res
-        .status(400)
-        .send({ status: false, message: "name is required" });
+      .status(400)
+      .send({ status: false, message: "name is required" });
     }
+    console.log("working");
 
-    if (isValid(phone)) {
+    let Phone=parseInt(phone);
+    
+    console.log(Phone)
+    if (isValid(Phone)) {
       return res
-        .status(400)
-        .send({ status: false, message: "Please enter the mobile number lalit" });
+      .status(400)
+      .send({ status: false, message: "Please enter the mobile number lalit" });
     }
-
-    if (!moblieRegex(phone)) {
+    console.log("working");
+    
+    if (!moblieRegex(Phone)) {
       return res.status(400).send({
         status: false,
         message: "Please enter the valid mobile number it must be 10 Digit",
       });
     }
 
-    const checkMobile = await userModel.findOne({ phone: phone });
+    const checkMobile = await userModel.findOne({ phone: Phone });
     if (checkMobile) {
       return res
         .status(400)
@@ -96,7 +101,7 @@ const createUser = async function (req, res) {
     //<============>>>> User without address <<<<================>//
 
     if (!address) {
-      const userDataN = { title, name, phone, email, password };
+      const userDataN = { title, name, Phone, email, password };
       const saveUser = await userModel.create(userDataN);
       return res.status(201).send({
         status: true,
@@ -107,9 +112,9 @@ const createUser = async function (req, res) {
 
     //<============>>>> User with address <<<<====================>//
 
-   
 
     const userData = await userModel.create(requestbody);
+    console.log("working", userData);
     return res.status(201).send({
       status: true,
       message: "sucessfully saved",
@@ -181,7 +186,7 @@ const loginUser = async function (req, res) {
         organisation: "BooksWorld",
       },
       "Secretkey",
-      { expiresIn: "10d" }
+      { expiresIn: "5m" }
     );
 
     res.setHeader("x-api-key", token);
