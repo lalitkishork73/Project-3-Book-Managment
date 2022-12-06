@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaWindowClose } from "react-icons/fa";
 
-const UpdateReview = ({ showMenuUpdate, actives }) => {
+const UpdateReview = ({ showMenuUpdate, actives ,Id}) => {
     return (
         <>
             <div className={actives

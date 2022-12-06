@@ -8,7 +8,7 @@ const ReviewCard = ({ showMenuCreate, active, Id }) => {
     const [ratingg, setRating] = useState("");
     const [reviewer, setReviewer] = useState("");
     const [reviews, setReview] = useState("");
-    const formData = {
+    const Data = {
         bookId: Id,
         reviewedBy: reviewer,
         rating: ratingg,
@@ -17,14 +17,15 @@ const ReviewCard = ({ showMenuCreate, active, Id }) => {
 
     const postDat = async () => {
         try {
-            const res = axios.post(url, postData)
-            console.log(res);
-            console.log(formData);
+            const res = axios.post(url, Data)
+            console.log(res.Data);
+            console.log(Data);
 
         } catch (err) {
             console.log(err);
         }
     }
+
 
     const postData = (e) => {
         e.preventDefault();
@@ -45,11 +46,11 @@ const ReviewCard = ({ showMenuCreate, active, Id }) => {
                     </textarea>
                     <select className='mt-2 mb-2' onChange={(e) => { setRating(e.target.value) }}>
                         <option value="" selected disabled hidden>Give Your Rating</option>
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
+                        <option value={5}>5</option>
+                        <option value={4}>4</option>
+                        <option value={3}>3</option>
+                        <option value={2}>2</option>
+                        <option value={1}>1</option>
                     </select>
                     <div className='flex justify-end p-2'>
                         <button onClick={postData} className="bg-sky-500 text-white p-2 rounded-md ">Submit</button>

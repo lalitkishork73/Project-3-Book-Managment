@@ -5,6 +5,7 @@ import UpdateReview from '../components/updateReview';
 import { useLocation, useParams } from 'react-router-dom'
 import poster from '../assets/poster.png';
 import axios from 'axios';
+import { AiFillStar } from 'react-icons/ai'
 
 
 const Review = () => {
@@ -67,26 +68,31 @@ const Review = () => {
                         <p className='mt-6 bg-sky-600 rounded-md text-white text-center font-bold p-3 mb-5'>Reviews</p>
                         <div className='grid grid-cols-3 gap-2 max-w-screen-xl'>
 
-                        {rewlist.map((list) => (<>
-                        
+                            {rewlist.map((list) => (<>
+
                                 <div key={list.id} className='ml-16 bg-slate-100 rounded-lg p-3  drop-shadow-lg'>
                                     <p className='font-bold mb-1'>{list.reviewedBy}</p>
                                     <p className='mb-1 ml-1'>{list.review}</p>
-                                    <div className='flex'>
-                                        <p className='mb-3 text-white bg-yellow-400 p-1 font-bold rounded-md '>Rating :&nbsp;{list.rating}</p>
+                                    <div className='flex flex-row'>
+                                        {
+                                        [...Array("8")].map((index) => (
+                                            <p key={index} className='mb-3 text-yellow-400 p-1 font-bold rounded-md '> <AiFillStar /></p>
+                                        )
+                                        )}
+
                                     </div >
                                     <button className='bg-sky-400 p-2 rounded-md hover:bg-green-400' onClick={showMenuUpdate}><AiTwotoneEdit className='text-white scale-125' /></button>
                                 </div>
-                            
-                        </>))}  
-                            
+
+                            </>))}
+
                         </div>
                     </div>
                     <div className="">
-                        <ReviewCard showMenuCreate={showMenuCreate} active={active} Id={id}/>
+                        <ReviewCard showMenuCreate={showMenuCreate} active={active} Id={id} />
                     </div>
                     <div className="">
-                        <UpdateReview showMenuUpdate={showMenuUpdate} actives={actives} />
+                        <UpdateReview showMenuUpdate={showMenuUpdate} actives={actives} Id={id} />
                     </div>
 
                 </div>
