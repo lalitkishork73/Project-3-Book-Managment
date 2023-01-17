@@ -11,7 +11,7 @@ const Bookpage = () => {
     },[])
     return (
         <>
-        you have been successFully loggedin
+        
         </>
     )
 }
