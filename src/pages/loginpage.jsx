@@ -1,47 +1,94 @@
-import React, { useState } from 'react'
-import { NavLink,useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import useAuth from '../hooks/auth'
 import axios from 'axios';
 // import bg from '../assets/bg-auth.jpg';
 
-const Loginpage = () => {
-    const navigate=useNavigate();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [isLoggedin, setIsLoggedin] = useState(false);
-    const url = `http://localhost:3001/login`;
+const inputT = `text-red-500 text-xs mt-1 p-1 bg-black rounded-xl `
+const inputF = `absolute left-[-9999px]`
+const formsubS = 'flex flex-col'
+const labelS = 'text-xs text-white'
 
-    const Data = {
-        email: username,
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+
+
+
+const Loginpage = () => {
+    const url = `http://localhost:3001/login`;
+    const userRef = useRef();
+    const errRef = useRef();
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
+
+    const [password, setPassword] = useState('');
+    const [validPassword, setValidPassword] = useState(false);
+    const [passwordFocus, setPasswordFocus] = useState(false);
+    const [errmsg, setErrmsg] = useState('');
+
+
+    useEffect(() => {
+        userRef.current.focus()
+    }, []);
+
+    useEffect(() => {
+        setValidEmail(EMAIL_REGEX.test(email))
+    }, [email])
+
+    useEffect(() => {
+        setValidPassword(PWD_REGEX.test(password))
+    }, [password])
+
+    useEffect(() => {
+        setErrmsg('')
+
+    }, [email, password])
+    let data = {
+        email: email,
         password: password
     }
 
-   
-
-    const logout = () => {
-        localStorage.removeItem('token-info');
-        setIsLoggedin(false);
-    };
-
-    const postDat = async () => {
+    const setData = async () => {
         try {
-            const res = await axios.post(url, Data)
-            localStorage.setItem('token-info', JSON.stringify(res.data.data));
-            setIsLoggedin(true);
-            navigate("/books");
-            console.log("res", res.data.data);
-            console.log(Data);
+            const response = await axios.post(url, data);
+            const accessToken = response?.data?.token;
 
-        } catch (err) {
-            console.log(err);
+            setAuth({ email, accessToken })
+            navigate(from, { replace: true });
+
+            //  setAuth({ email, password, roles, accessToken });
+            // const roles = response?.data?.roles;
+            // setUser('');
+            // setPwd('');
+
+
+        }
+        catch (err) {
+            if (!err?.response) {
+                setErrmsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrmsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrmsg('Unauthorized');
+            } else {
+                setErrmsg('Login Failed');
+            }
+            errRef.current.focus();
         }
     }
 
     const login = (e) => {
         e.preventDefault();
-        postDat();
-        alert("login success");
-        console.log(Data);
+        setData();
     }
+
 
 
     return (
@@ -49,16 +96,41 @@ const Loginpage = () => {
 
             <div className="flex justify-center items-center h-[90vh] bg-[url('/src/assets/bg-auth.jpg')]">
                 <div className='w-auto h-auto rounded-lg bg-black/70 backdrop-blur-sm p-5 text-white drop-shadow-lg'>
-                    <form className='p-3 flex flex-col'>
-                        <h1 className='text-center font-bold'>Login</h1>
-                        <input type='text' placeholder='Username' value={username} onChange={(e) => { setUsername(e.target.value) }} className="p-2 border-white border-b-2 mt-5 mb-5 rounded-lg bg-transparent" />
-                        <input type='password' placeholder='Password' value={password} onChange={(e) => { setPassword(e.target.value) }} className="p-2 border-white border-b-2 mt-5 mb-5 rounded-lg bg-transparent  " />
-                        <div className='flex justify-center mt-6'>
-                            <button onClick={login} className='bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 p-3 rounded-lg w-32'>Login</button>
-                        </div>
+                    <div>
+                        <p ref={errRef} className={errmsg ? 'text-red-500 text-center text-sm       ' : ''}
+                            aria-live="assertive">{errmsg}</p>
+                        <form className='flex flex-col gap-5 p-5 rounded-lg'>
+                            <div className={formsubS}>
+                                <label htmlFor="user" className={labelS}>Username</label>
+                                <input type="text" placeholder='Username' className='p-1 rounded-md bg-transparent border-b-2 text-green-500' value={email} onChange={(e) => { setEmail(e.target.value) }}
+                                    id="user"
+                                    ref={userRef}
+                                    required
+                                    autoComplete='off'
+                                    aria-invalid={validEmail ? "false" : "true"}
+                                    aria-describedby="userNote"
+                                    onFocus={() => { setEmailFocus(true) }}
+                                    onBlur={() => { setEmailFocus(false) }}
 
-                        <p className='mt-5'>Don't have an account? <NavLink to='/signup' className='text-cyan-500'>Sign Up</NavLink> </p>
-                    </form>
+                                />
+                                <p className={!validEmail && emailFocus && email ? inputT : inputF}>please Enter valid userName</p>
+                            </div>
+                            <div className={formsubS}>
+                                <label htmlFor="user" className={labelS}>Password</label>
+                                <input type="Password" placeholder='Password' className='p-1 rounded-md bg-transparent border-b-2 text-green-500' value={password} onChange={(e) => { setPassword(e.target.value) }}
+                                    aria-describedby="passNote"
+                                    aria-invalid={validPassword ? "false" : "true"}
+                                    onFocus={() => { setPasswordFocus(true) }}
+                                    onBlur={() => { setPasswordFocus(false) }}
+                                />
+                                <p id="passNote" className={!validPassword && passwordFocus && password ? inputT : inputF}>please Enter valid password</p>
+                            </div>
+                            <div className='flex justify-center p-3'>
+                                <button onClick={login} className='p-1 pl-5 pr-5 bg-red-500 rounded-md text-white'>Login</button>
+                            </div>
+                            <p className='text-white'>If you don't have account?<Link to='/signup'>&nbsp;<span className='text-cyan-400'>Signup</span></Link></p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </>

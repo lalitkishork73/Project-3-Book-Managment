@@ -10,6 +10,7 @@ import Bookpage from "./pages/bookpage";
 import Footer from "./pages/footer";
 import Newbook from "./components/Newbook";
 import ModifieBook from "./components/ModifieBook"
+import RequireAuth from "./components/RequireAuth";
 function App() {
   return (
     <>
@@ -19,9 +20,11 @@ function App() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/signup" element={<Signuppage />} />
         <Route path="/review/:id" element={<Review />} />
-        <Route path="/books" element={<Bookpage />} >
-          <Route index="true" element={<Newbook/>} />
-          <Route path="update" element={<ModifieBook/>} />
+        <Route element={<RequireAuth />}>
+          <Route path="/books" element={<Bookpage />} >
+            <Route index="true" element={<Newbook />} />
+            <Route path="update" element={<ModifieBook />} />
+          </Route>
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
