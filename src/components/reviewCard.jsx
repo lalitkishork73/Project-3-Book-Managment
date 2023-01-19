@@ -3,13 +3,11 @@ import { FaWindowClose } from "react-icons/fa";
 import axios from 'axios';
 
 const ReviewCard = ({ showMenuCreate, active, Id }) => {
-    console.log("rew", Id);
     const url = `http://localhost:3001/books/${Id}/review`;
     const [ratingg, setRating] = useState("");
     const [reviewer, setReviewer] = useState("");
     const [reviews, setReview] = useState("");
     const Data = {
-        bookId: Id,
         reviewedBy: reviewer,
         rating: ratingg,
         review: reviews,
@@ -18,8 +16,7 @@ const ReviewCard = ({ showMenuCreate, active, Id }) => {
     const postDat = async () => {
         try {
             const res = axios.post(url, Data)
-            console.log(res.Data);
-            console.log(Data);
+            
 
         } catch (err) {
             console.log(err);

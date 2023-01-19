@@ -14,17 +14,18 @@ const Homecontent = () => {
                     method: 'get',
                     url: 'http://localhost:3001/mbooks'
                 })
+                console.log(res.data, "data")
                 console.log(res.data.data, "data")
                 setList(res.data.data)
             }
             catch (err) {
-                console.error(err)
+                console.error(err.message)
             }
         }
 
         getData();
 
-    }, [])
+    }, [list])
 
     return (
         <>

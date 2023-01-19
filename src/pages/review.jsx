@@ -21,22 +21,19 @@ const Review = () => {
     const [rewlist, setRewlist] = useState([]);
     const { id } = useParams();
 
-    console.log(id);
-
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get(`http://localhost:3001/books/${id}`);
+                const res = await axios.get(`http://localhost:3001/bookss/${id}`);
                 setDb(res.data.data);
                 setRewlist(res.data.data.reviewData)
-                console.log(db);
-                console.log(rewlist);
+
             } catch (err) { console.error(err) }
         }
 
         getData();
 
-    }, [])
+    }, [db, rewlist])
 
 
 
@@ -49,7 +46,7 @@ const Review = () => {
 
                         <div className='flex flex-col md:flex-row drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#faf9de]'>
                             <div className='md:rounded-l-xl flex
-                                justify-center md:justify-start w-[100%]'>
+                                justify-center md:justify-start w-auto mr-5'>
                                 <img className='rounded-xl lg:rounded-l-xl min-w-[10rem] max-h-[15rem]' src={poster} />
                             </div>
                             <div className='flex flex-col text-center md:text-justify p-2 w-[100%]'>
@@ -75,10 +72,10 @@ const Review = () => {
                                     <p className='mb-1 ml-1'>{list.review}</p>
                                     <div className='flex flex-row'>
                                         {
-                                        [...Array("8")].map((index) => (
-                                            <p key={index} className='mb-3 text-yellow-400 p-1 font-bold rounded-md '> <AiFillStar /></p>
-                                        )
-                                        )}
+                                            [...Array(list.rating)].map((index) => (
+                                                <p key={index} className='mb-3 text-yellow-400 p-1 font-bold rounded-md '> <AiFillStar /></p>
+                                            )
+                                            )}
 
                                     </div >
                                     <button className='bg-sky-400 p-2 rounded-md hover:bg-green-400' onClick={showMenuUpdate}><AiTwotoneEdit className='text-white scale-125' /></button>
