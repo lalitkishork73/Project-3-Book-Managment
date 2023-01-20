@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { SiBookstack } from 'react-icons/si'
 
 const Footer = () => {
+    const date = new Date();
     return (
         <>
             <footer className='flex bg-black p-2 justify-center'>
@@ -13,8 +14,8 @@ const Footer = () => {
                     <SiBookstack className='text-yellow-300' />
                 </div>
                 <div className='text-white p-2'>
-                    <p>
-                        Copyright © 2023 Book's Lab. All rights reserved.
+                    <p className='text-sm'>
+                        Copyright © {date.getFullYear()}     Book's Lab. All rights reserved.
                     </p>
                 </div>
             </footer>

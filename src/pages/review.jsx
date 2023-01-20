@@ -9,6 +9,8 @@ import { AiFillStar } from 'react-icons/ai'
 
 
 const Review = () => {
+
+
     const [active, setActive] = useState(false);
     const [actives, setActives] = useState(false);
     const showMenuCreate = () => {
@@ -41,18 +43,19 @@ const Review = () => {
     return (
         <>
             <div className="relative flex flex-col items-center bg-gradient-to-r from-green-400 to-blue-300 h-auto">
-                <div className="w-[70%] mt-5 ">
+                <div className="w-[65%] mt-5 ">
                     <div className='flex flex-col gap-2 drop-shadow-xl rounded-lg  p-3 bg-[#fdfdfd] backdrop-blur-sm'>
 
-                        <div className='flex flex-col md:flex-row drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#faf9de]'>
-                            <div className='md:rounded-l-xl flex
-                                justify-center md:justify-start w-auto mr-5'>
+                        <div className='flex flex-col md:flex-row drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r text-white p-5'>
+                            <div className='md:rounded-l-xl flex 
+                                justify-center md:justify-start w-auto mr-5 p-2'>
                                 <img className='rounded-xl lg:rounded-l-xl min-w-[10rem] max-h-[15rem]' src={poster} />
                             </div>
-                            <div className='flex flex-col text-center md:text-justify p-2 w-[100%]'>
-                                <h1 className='font-bold mb-2'>{db.title}</h1>
+                            <div className='relative flex flex-col justify-around text-center md:text-justify p-2 w-[100%] text-sm overflow-hidden'>
+
+                                <h1 className='font-bold mb-2 text-xl uppercase'>{db.title}</h1>
                                 <h3 className='text-gray-500'><span className='bg-cyan-400 text-white p-1 rounded-lg '> Category </span> &nbsp;{db.category}</h3>
-                                <p className='p-1'>{db.excerpt}</p>
+                                <p className='p-1 h-20 mt-5'>{db.excerpt}</p>
                                 <p className='p-1'><span className='font-bold'>ISBN -</span>&nbsp; {db.ISBN}</p>
                                 <p className='p-1'><span className='bg-black text-white p-1 rounded-md'>Total Reviews </span> &nbsp;{db.reviews}
                                 </p>
