@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { SiTeradata } from 'react-icons/si'
+import useAuth from '../hooks/auth'
 
 
 const inputS = 'rounded-sm p-2 border-b-2 text-sm focus:outline-teal-500'
@@ -19,6 +20,10 @@ const FILE_REGEX = /\.(jpg|jpeg|png|gif)$/
 
 
 const Newbook = () => {
+    const URL = `http://localhost:3001/books`
+
+    const { auth } = useAuth()
+
     const firstref = useRef(0);
     const errRef = useRef();
 
@@ -42,15 +47,14 @@ const Newbook = () => {
     const [validSubcategory, setSubValidCategory] = useState(false);
     const [SubcategoryFocus, setSubCategoryFocus] = useState(false);
 
+    const [date, setDate] = useState();
+
     const [file, setFile] = useState();
     const [validfile, setValifFile] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
     const [post, setPost] = useState(false);
     const [success, setSuccess] = useState(false);
-
-    const [test, setTest] = useState(false)
-
 
 
     useEffect(() => {
@@ -88,6 +92,48 @@ const Newbook = () => {
     }, [title, excerpt, isbn, category, subcategory, file])
 
 
+    const Setdata = async (data) => {
+        try {
+            axios.defaults.headers.common = {
+                "x-Api-key": auth?.accessToken
+            }
+
+            setPost(true);
+            const response = await axios.post(`${URL}/${auth?.email}`, data)
+
+            if (response?.data === undefined) {
+                console.log('server error');
+            }
+
+            if (response?.data?.status === true) {
+                setSuccess(true);
+                setPost(false);
+                setTitle('');
+                setExcerpt('');
+                setIsbn('');
+                setCategory('');
+                setSubCategory('');
+                setFile('');
+                setDate('');
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 6000);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username Taken');
+            } else {
+                setErrMsg('Registration Failed')
+            }
+            errRef.current.focus();
+        }
+    }
+
+
 
     const submit = (e) => {
         e.preventDefault()
@@ -109,45 +155,19 @@ const Newbook = () => {
 
         formdata.append('title', title);
         formdata.append('excerpt', excerpt);
-        formdata.append('isbn', isbn);
+        formdata.append('ISBN', isbn);
         formdata.append('category', category);
         formdata.append('subcategory', subcategory);
+        formdata.append('releasedAt', date);
         formdata.append('bookCover', file);
 
         Setdata(formdata)
 
         // for (let value of formdata.values()) {
         //     console.log(value);
+        // }
     }
 
-    const Setdata = async (data) => {
-        try {
-            // setPost(true);
-            
-
-            
-                setSuccess(true);
-                setPost(false);
-                setTitle('');
-                setExcerpt('');
-                setIsbn('');
-                setCategory('');
-                setSubCategory('');
-                setFile();
-            
-        }
-        catch (err) {
-            console.log(err);
-            // if (!err?.response) {
-            //     setErrMsg('No Server Response');
-            // } else if (err.response?.status === 409) {
-            //     setErrMsg('Username Taken');
-            // } else {
-            //     setErrMsg('Registration Failed')
-            // }
-            // errRef.current.focus();
-        }
-    }
 
 
     return (
@@ -233,6 +253,16 @@ const Newbook = () => {
                                                         hover:file:bg-yellow-100' onChange={(e) => { setFile(e.target.files[0]) }} />
                                 <p className={file && !validfile ? inputErr : inputF}>File Should Be Image</p>
                             </div>
+                            <div>
+                                <input type="date" name="date" className='w-full
+                                                        mr-4 py-2 px-4
+                                                        rounded-full border-0
+                                                        text-sm font-semibold
+                                                        bg-yellow-50 text-yellow-500    
+                                                        hover:bg-yellow-100
+                                                        uppercase text-center'
+                                    value={date} onChange={(e) => { setDate(e.target.value) }} />
+                            </div>
                             <div className="flex justify-center">
                                 <button className={buton} onClick={submit}>Submit</button>
                             </div>
@@ -244,8 +274,7 @@ const Newbook = () => {
                                 }
                                 {
                                     success ? <>
-                                        <p>success</p>
-
+                                        <p className='text-green-500 text-center text-sm'>success!</p>
                                     </> : <></>
                                 }
                             </div>

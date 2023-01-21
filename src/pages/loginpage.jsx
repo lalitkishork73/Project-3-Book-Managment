@@ -58,7 +58,8 @@ const Loginpage = () => {
     const setData = async () => {
         try {
             const response = await axios.post(url, data);
-            const accessToken = response?.data?.token;
+            const accessToken = response?.data?.data;
+            // console.log(accessToken)
 
             setAuth({ email, accessToken })
             navigate(from, { replace: true });

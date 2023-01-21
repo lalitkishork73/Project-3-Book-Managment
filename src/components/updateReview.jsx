@@ -1,7 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaWindowClose } from "react-icons/fa";
+import axios from 'axios';
 
-const UpdateReview = ({ showMenuUpdate, actives ,Id}) => {
+const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
+    // console.log(RId);
+    const url = `http://localhost:3001/books/${Id}/review/${RId}`;
+    const [ratingg, setRating] = useState("");
+    const [reviewer, setReviewer] = useState("");
+    const [reviews, setReview] = useState("");
+    const Data = {
+        reviewedBy: reviewer,
+        rating: ratingg,
+        review: reviews,
+    }
+
+    const postDat = async () => {
+        try {
+            const res = axios.put(url, Data)
+
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    const postData = (e) => {
+        e.preventDefault();
+        postDat();
+
+    }
+
+
+
     return (
         <>
             <div className={actives
@@ -10,19 +41,20 @@ const UpdateReview = ({ showMenuUpdate, actives ,Id}) => {
                 <div className="mt-5 p-5 bg-white rounded-md flex flex-col backdrop-blur-lg top-36">
                     <FaWindowClose onClick={showMenuUpdate} className="mx-4 scale-120 text-center mb-2 text-red-500 rounded-sm" />
                     <h1 className='text-center font-bold'>Update Review</h1>
-                    <input type='text' placeholder="Reviewer's Name" className="p-2 rounded-md border-b-2" />
-                    <textarea id="w3review" name="w3review" rows="3" cols="70" className="p-2  rounded-md border-b-2 mb-2" placeholder='Write Your Review !'>
+                    <input type='text' placeholder="Reviewer's Name" className="p-2 rounded-md border-b-2" value={reviewer} onChange={(e) => { setReviewer(e.target.value) }} />
+                    <textarea id="w3review" name="w3review" rows="3" cols="70" className="p-2  rounded-md border-b-2 mb-2" placeholder='Write Your Review !'
+                        value={reviews} onChange={(e) => { setReview(e.target.value) }}>
                     </textarea>
-                    <select className='mt-2 mb-2'>
+                    <select className='mt-2 mb-2' onChange={(e) => { setRating(e.target.value) }}>
                         <option value="" selected disabled hidden>Give Your Rating</option>
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
+                        <option value={5}>5</option>
+                        <option value={4}>4</option>
+                        <option value={3}>3</option>
+                        <option value={2}>2</option>
+                        <option value={1}>1</option>
                     </select>
                     <div className='flex justify-end p-2'>
-                        <button type="submit" className="bg-sky-500 text-white p-2 rounded-md ">Submit</button>
+                        <button type="submit" onClick={postData} className="bg-sky-500 text-white p-2 rounded-md ">Update</button>
                     </div>
                 </div>
 

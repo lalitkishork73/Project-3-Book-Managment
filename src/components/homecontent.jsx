@@ -14,8 +14,8 @@ const Homecontent = () => {
                     method: 'get',
                     url: 'http://localhost:3001/mbooks'
                 })
-                console.log(res.data, "data")
-                console.log(res.data.data, "data")
+                // console.log(res.data, "data")
+                // console.log(res.data.data, "data")
                 setList(res.data.data)
             }
             catch (err) {
@@ -30,7 +30,7 @@ const Homecontent = () => {
     return (
         <>
             <div className='flex justify-center bg-gradient-to-r from-blue-400 to-emerald-400'>
-                <div className='p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3  bg-[#fdfdfd80] w-[100%] md:w-[65%]' >
+                <div className='p-10 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-3  bg-[#fdfdfd80] w-[100%] md:w-[65%]' >
 
                     {
                         list.map((item,id) => (
@@ -41,11 +41,11 @@ const Homecontent = () => {
                                         <img className='rounded-xl min-w-[10rem] max-h-[15rem]' src={poster} />
                                     </div>
                                     <div className='flex flex-col text-center md:text-justify p-5 w-auto text-sm'>
-                                        <h1 className='font-bold mb-2'>{item.title}</h1>
+                                        <h1 className='font-bold mb-2 uppercase'>{item.title}</h1>
                                         <h3 className='text-xs text-gray-500'><span className='bg-cyan-400 text-white p-1 rounded-lg '> Catagory </span> &nbsp; {item.category}</h3>
                                         <p className='p-1 h-20 overflow-hidden'>{item.excerpt}</p>
                                         <p className='p-1'><span className='font-bold'>ISBN -</span>&nbsp; {item.ISBN}</p>
-                                        <p className=''><span className='bg-black text-white p-1 rounded-md'>Total Reviews </span> &nbsp; {item.reviews
+                                        <p className=''><span className='bg-black text-white p-1 rounded-md text-xs'>Total Reviews </span> &nbsp; {item.reviews
                                         }</p>
                                         <NavLink to={`/review/${item._id}`} >
                                             <button className='bg-gradient-to-r from-green-400 to-blue-300 hover:from-pink-200 hover:to-yellow-500 p-1 rounded-lg w-16 mt-2 text-xs'>Review</button>

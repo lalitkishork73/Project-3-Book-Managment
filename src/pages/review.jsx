@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import ReviewCard from '../components/reviewCard';
-import { AiTwotoneEdit } from 'react-icons/ai'
+import { AiTwotoneEdit, AiFillStar, AiFillDelete } from 'react-icons/ai'
 import UpdateReview from '../components/updateReview';
 import { useLocation, useParams } from 'react-router-dom'
 import poster from '../assets/poster.png';
 import axios from 'axios';
-import { AiFillStar } from 'react-icons/ai'
+import { FaUserAstronaut } from 'react-icons/fa'
 
 
 const Review = () => {
 
-
+    const [RId, setRId] = useState();
     const [active, setActive] = useState(false);
     const [actives, setActives] = useState(false);
     const showMenuCreate = () => {
         setActive(!active);
     }
-    const showMenuUpdate = () => {
+    const showMenuUpdate = (data) => {
+        console.log(RId);
         setActives(!actives);
     }
     const [db, setDb] = useState([]);
@@ -29,6 +30,7 @@ const Review = () => {
                 const res = await axios.get(`http://localhost:3001/bookss/${id}`);
                 setDb(res.data.data);
                 setRewlist(res.data.data.reviewData)
+                // console.log(res.data.data.reviewData[0]._id)
 
             } catch (err) { console.error(err) }
         }
@@ -60,28 +62,36 @@ const Review = () => {
                                 <p className='p-1'><span className='bg-black text-white p-1 rounded-md'>Total Reviews </span> &nbsp;{db.reviews}
                                 </p>
                                 <div className='flex justify-start mt-3'>
-                                    <button className='bg-gradient-to-r from-green-400 to-blue-300 hover:from-pink-200 hover:to-yellow-500 p-3 rounded-lg w-auto text-white ' onClick={showMenuCreate}> Review</button>
+                                    <button className='bg-gradient-to-r from-green-400 to-blue-300 hover:from-pink-200 hover:to-yellow-500 p-3 rounded-lg w-auto text-white text-xs' onClick={showMenuCreate}> Review</button>
                                 </div>
                             </div>
 
                         </div>
                         <p className='mt-6 bg-sky-600 rounded-md text-white text-center font-bold p-3 mb-5'>Reviews</p>
-                        <div className='grid grid-cols-3 gap-2 max-w-screen-xl'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-2 max-w-screen-xl'>
 
-                            {rewlist.map((list) => (<>
-
-                                <div key={list.id} className='ml-16 bg-slate-100 rounded-lg p-3  drop-shadow-lg'>
-                                    <p className='font-bold mb-1'>{list.reviewedBy}</p>
-                                    <p className='mb-1 ml-1'>{list.review}</p>
-                                    <div className='flex flex-row'>
-                                        {
-                                            [...Array(list.rating)].map((index) => (
-                                                <p key={index} className='mb-3 text-yellow-400 p-1 font-bold rounded-md '> <AiFillStar /></p>
-                                            )
-                                            )}
-
-                                    </div >
-                                    <button className='bg-sky-400 p-2 rounded-md hover:bg-green-400' onClick={showMenuUpdate}><AiTwotoneEdit className='text-white scale-125' /></button>
+                            {rewlist.map((list, id) => (<>
+                                <div key={id} className='flex bg-slate-100 rounded-lg p-1 text-sm  drop-shadow-lg w-auto'>
+                                    <div><FaUserAstronaut className='w-auto mr-5 text-sky-500' /></div>
+                                    <div className='w-auto'>
+                                        <p className='font-bold mb-1'>{list.reviewedBy}</p>
+                                        <div className='flex flex-row'>
+                                            {
+                                                [...Array(list.rating)].map((index) => (
+                                                    <p key={index} className=' text-yellow-400 p-1 font-bold scale-110'> <AiFillStar /></p>
+                                                )
+                                                )}
+                                        </div >
+                                        <p className='w-auto h-12 overflow-hidden'>{list.review}</p>
+                                        <p className='w-auto h-12 overflow-hidden'>{list._id}</p>
+                                        <div className='gap-2 flex'>
+                                            <button className='bg-sky-400 p-2 rounded-full hover:bg-green-400' onClick={showMenuUpdate}><AiTwotoneEdit className='text-white scale-125' /></button>
+                                            <button className='bg-sky-400 p-2 rounded-full hover:bg-red-500' onClick={(e) => {
+                                                setRId(list._id)
+                                                e.preventDefault();
+                                            }}><AiFillDelete className='text-white scale-125' /></button>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </>))}
@@ -92,7 +102,7 @@ const Review = () => {
                         <ReviewCard showMenuCreate={showMenuCreate} active={active} Id={id} />
                     </div>
                     <div className="">
-                        <UpdateReview showMenuUpdate={showMenuUpdate} actives={actives} Id={id} />
+                        <UpdateReview showMenuUpdate={showMenuUpdate} actives={actives} Id={id} RId={RId} />
                     </div>
 
                 </div>

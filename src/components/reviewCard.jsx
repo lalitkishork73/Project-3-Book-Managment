@@ -16,6 +16,7 @@ const ReviewCard = ({ showMenuCreate, active, Id }) => {
     const postDat = async () => {
         try {
             const res = axios.post(url, Data)
+            console.log(res);
             
 
         } catch (err) {
