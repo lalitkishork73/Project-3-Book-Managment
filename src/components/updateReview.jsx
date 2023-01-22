@@ -3,11 +3,13 @@ import { FaWindowClose } from "react-icons/fa";
 import axios from 'axios';
 
 const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
-    // console.log(RId);
+    // console.log(RId,"two");
     const url = `http://localhost:3001/books/${Id}/review/${RId}`;
     const [ratingg, setRating] = useState("");
     const [reviewer, setReviewer] = useState("");
     const [reviews, setReview] = useState("");
+    const [success, setSuccess] = useState(false);
+
     const Data = {
         reviewedBy: reviewer,
         rating: ratingg,
@@ -16,8 +18,15 @@ const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
 
     const postDat = async () => {
         try {
-            const res = axios.put(url, Data)
-
+            setSuccess(true)
+            const res = await axios.put(url, Data)
+            if (res?.data?.status == true) {
+                setRating(" ");
+                setReviewer('');
+                setReview('');
+                setSuccess(false);
+                showMenuUpdate();
+            }
 
         } catch (err) {
             console.log(err);
@@ -56,8 +65,16 @@ const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
                     <div className='flex justify-end p-2'>
                         <button type="submit" onClick={postData} className="bg-sky-500 text-white p-2 rounded-md ">Update</button>
                     </div>
+                    {
+                        success ? <>
+                            <div class="flex justify-center items-center">
+                                <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full border-blue-500 border-l-white" role="status">
+                                    <span class="visually-hidden"></span>
+                                </div>
+                            </div>
+                        </> : <></>
+                    }
                 </div>
-
             </div>
         </>
     )
