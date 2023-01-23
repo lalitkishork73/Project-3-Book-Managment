@@ -21,7 +21,7 @@ const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
             setSuccess(true)
             const res = await axios.put(url, Data)
             if (res?.data?.status == true) {
-                setRating(" ");
+                setRating("");
                 setReviewer('');
                 setReview('');
                 setSuccess(false);

@@ -173,7 +173,7 @@ const Newbook = () => {
     return (
         <>
             <main className={mainBody}>
-                <section className=' p-4 rounded-xl w-[30%] bg-white'>
+                <section className=' p-4 rounded-xl w-[95%] md:w-[50%] bg-white'>
                     <div className='w-[100%]'>
                         <form className={form}>
                             <div className={formsubS}>

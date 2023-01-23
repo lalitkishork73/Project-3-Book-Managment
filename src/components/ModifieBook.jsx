@@ -23,7 +23,8 @@ const ModifieBook = () => {
                 }
 
                 const res = await axios.get(URL);
-                console.log(res.data.data)
+                // console.log(res.data.data)
+                
                 setList(res.data.data)
             } catch (err) {
                 console.log(err)
