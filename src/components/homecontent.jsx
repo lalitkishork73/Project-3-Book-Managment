@@ -33,9 +33,9 @@ const Homecontent = () => {
                 <div className='p-10 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-3  bg-[#fdfdfd80] w-[100%] md:w-[65%]' >
 
                     {
-                        list.map((item,id) => (
+                        list.map((item, id) => (
                             <>
-                                <div key={id} className='flex flex-col drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#edf5fc] w-auto p-1'>  
+                                <div key={id} className='flex flex-col drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#edf5fc] w-auto p-1'>
                                     <div className='rounded-xl flex
                                 justify-center w-auto bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r'>
                                         <img className='rounded-xl min-w-[10rem] max-h-[15rem]' src={poster} />
@@ -51,13 +51,10 @@ const Homecontent = () => {
                                             <button className='bg-gradient-to-r from-green-400 to-blue-300 hover:from-pink-200 hover:to-yellow-500 p-1 rounded-lg w-16 mt-2 text-xs'>Review</button>
                                         </NavLink>
                                     </div>
-
                                 </div>
                             </>
                         ))
-
                     }
-
                 </div >
             </div>
         </>

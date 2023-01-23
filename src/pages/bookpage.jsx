@@ -2,13 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, Outlet, NavLink } from 'react-router-dom'
 
 const Bookpage = () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (!localStorage.getItem('token-info')) {
-            navigate('/login');
-        }
 
-    }, [])
     return (
         <>
             <main className='gap-2 p-1'>
@@ -18,7 +12,7 @@ const Bookpage = () => {
                         <NavLink to='/books/update'><li className='p-1 pl-7 pr-7 bg-black text-white rounded-md'>Update/Remove Books</li></NavLink>
                     </nav>
                 </section>
-                <section className='p-1 h-[83.3vh] bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r rounded-xl'>
+                <section className='p-1 h-[84vh] bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r rounded-xl overflow-y-auto'>
                     <Outlet />
                 </section>
             </main>

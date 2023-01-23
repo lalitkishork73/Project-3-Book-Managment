@@ -1,5 +1,7 @@
+import axios from 'axios'
 import React, { useState, useEffect, useRef } from 'react'
 import { FaWindowClose } from 'react-icons/fa'
+import useAuth from '../hooks/auth'
 
 const inputS = 'rounded-sm p-2 border-b-2 text-sm focus:outline-teal-500'
 const labelS = 'text-xs text-yellow-500'
@@ -16,7 +18,7 @@ const TEXT_REGEX = /^\W*/;
 
 
 const Updatebook = ({ showMenuUpdate, active, Id }) => {
-
+    console.log(Id)
     const firstref = useRef(0);
     const errRef = useRef();
 
@@ -38,6 +40,8 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
     const [success, setSuccess] = useState(false);
 
     const [test, setTest] = useState(false)
+    const { auth } = useAuth();
+    const URL = `http://localhost:3001/books/${Id}`
 
 
 
@@ -66,15 +70,15 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
     const submit = (e) => {
         e.preventDefault()
 
-        const v1 = ISBN_REGEX.test(isbn);
-        const v2 = TEXT_REGEX.test(excerpt);
-        const v3 = TEXT_REGEX.test(title);
+        // const v1 = ISBN_REGEX.test(isbn);
+        // const v2 = TEXT_REGEX.test(excerpt);
+        // const v3 = TEXT_REGEX.test(title);
 
 
-        if (!v1 || !v2 || !v3) {
-            setErrMsg('Invalid Entry!');
-            return;
-        }
+        // if (!v1 || !v2 || !v3) {
+        //     setErrMsg('Invalid Entry!');
+        //     return;
+        // }
 
 
         const formdata = new FormData();
@@ -82,8 +86,6 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
         formdata.append('title', title);
         formdata.append('excerpt', excerpt);
         formdata.append('isbn', isbn);
-
-
         Setdata(formdata)
 
         // for (let value of formdata.values()) {
@@ -92,28 +94,32 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
 
     const Setdata = async (data) => {
         try {
-            // setPost(true);
-
-
-
-            setSuccess(true);
-            setPost(false);
-            setTitle('');
-            setExcerpt('');
-            setIsbn('');
+            setPost(true);
+            axios.defaults.headers.common = {
+                "x-Api-key": auth?.accessToken
+            }
+            const res = await axios.put(URL, data)
+            console.log(res)
+            if (res?.data?.status == true) {
+                setSuccess(true);
+                setPost(false);
+                setTitle('');
+                setExcerpt('');
+                setIsbn('');
+            }
 
 
         }
         catch (err) {
             console.log(err);
-            // if (!err?.response) {
-            //     setErrMsg('No Server Response');
-            // } else if (err.response?.status === 409) {
-            //     setErrMsg('Username Taken');
-            // } else {
-            //     setErrMsg('Registration Failed')
-            // }
-            // errRef.current.focus();
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username Taken');
+            } else {
+                setErrMsg('Registration Failed')
+            }
+            errRef.current.focus();
         }
     }
 
@@ -149,7 +155,7 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
                                         onChange={(e) => { setTitle(e.target.value) }}
 
                                     />
-                                    <p className={titleFocus && title && !validtitle ? inputErr : inputF}>Please </p>
+                                    <p className={titleFocus && title && !validtitle ? inputErr : inputF}>Please Provide valid Title</p>
                                 </div>
                                 <div className={formsubS}>
                                     <label htmlFor="excerpt" className={labelS}>Excerpt</label>
@@ -162,7 +168,7 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
                                         onBlur={() => { setexcerptFocus(false) }}
                                         value={excerpt}
                                         onChange={(e) => { setExcerpt(e.target.value) }} />
-                                    <p className={excerptFocus && excerpt && !validexcerpt ? inputErr : inputF}>love is killer</p>
+                                    <p className={excerptFocus && excerpt && !validexcerpt ? inputErr : inputF}>Please provide valid Excerpt</p>
                                 </div>
                                 <div className={formsubS}>
                                     <label htmlFor="isbn" className={labelS}>ISBN</label>
@@ -188,18 +194,14 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
                                     }
                                     {
                                         success ? <>
-                                            <p>success</p>
-
+                                            <p className='text-center text-green-500 text-sm'>success!</p>
                                         </> : <></>
                                     }
                                 </div>
-
                             </form>
                         </div>
                     </section>
-
                 </div>
-
             </div>
         </>
     )
