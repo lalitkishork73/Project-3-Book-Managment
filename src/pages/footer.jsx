@@ -14,7 +14,7 @@ const Footer = () => {
                     <SiBookstack className='text-yellow-300' />
                 </div>
                 <div className='text-white p-2'>
-                    <p className='text-sm'>
+                    <p className='text-xs'>
                         Copyright © {date.getFullYear()}     Book's Lab. All rights reserved.
                     </p>
                 </div>
