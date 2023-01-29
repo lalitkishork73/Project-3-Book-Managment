@@ -17,20 +17,20 @@ const authentication = async function (req, res, next) {
     }
 
     let decodedToken;
-    jwt.verify(token, "Secretkey", (err, decode) => {
-      if (err) {
-        return res
-          .status(401).send({ status: false, message: "unauthorized" });
-      }
-      else {
-        decodedToken = decode;
-      }
+    if (token) {
+      return jwt.verify(token, "Secretkey", function (err, decoded) {
+        if (err) {
+          return res
+            .status(401).send({ status: false, message: "unauthorized" });
+        }
+        decodedToken = decoded;
+        let LoginUserId = decodedToken.userId;
+        req["userId"] = LoginUserId;
+        return next();
+      });
+    }
+    return res.unauthorized();
 
-    });
-    let LoginUserId = decodedToken.userId;
-
-    req["userId"] = LoginUserId;
-    next();
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
