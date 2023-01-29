@@ -17,22 +17,22 @@ const authentication = async function (req, res, next) {
     }
 
     let decodedToken;
-    await jwt.verify(token, "Secretkey", (err, decode) => {
+    jwt.verify(token, "Secretkey", (err, decode) => {
       if (err) {
         return res
           .status(401).send({ status: false, message: "unauthorized" });
       }
-      else{
+      else {
         decodedToken = decode;
       }
 
     });
     let LoginUserId = decodedToken.userId;
-    
+
     req["userId"] = LoginUserId;
     next();
   } catch (err) {
-    res.status(500).send({ status: false, message: err.message });
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 
@@ -59,7 +59,7 @@ const authorisation = async function (req, res, next) {
     }
     next();
   } catch (err) {
-    res.status(500).send({ status: false, message: err.message });
+    return res.status(500).send({ status: false, message: err.message });
   }
 };
 

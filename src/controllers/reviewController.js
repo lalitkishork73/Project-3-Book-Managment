@@ -14,6 +14,7 @@ const {
 const reviewByBookId = async function (req, res) {
   try {
     const params = req.params.bookId;
+    console.log(params);
 
     if (!isValid(params))
       return res
@@ -36,7 +37,7 @@ const reviewByBookId = async function (req, res) {
       });
     }
 
-    console.log(typeof rating);
+    console.log(rating);
     if (!isValid(rating)) {
       return res
         .status(400)
@@ -48,8 +49,8 @@ const reviewByBookId = async function (req, res) {
         .status(400)
         .send({ status: false, message: "number must be 1 to 5" });
     }
-    rating = parseInt(rating);
-    console.log(typeof rating, rating);
+    const newRating = parseInt(rating);
+    console.log(typeof newRating, newRating);
 
     if (!isValid(review)) {
       return res
@@ -72,7 +73,7 @@ const reviewByBookId = async function (req, res) {
 
     const reviewedAt = new Date();
 
-    const data = { bookId, reviewedBy, reviewedAt, rating, review };
+    const data = { bookId, reviewedBy, reviewedAt, rating:newRating, review };
 
     const reviewdata = await reviewModel.create(data);
     const reviewUpdate = await reviewModel

@@ -18,14 +18,15 @@ const { uploadFile } = require("./awsController");
 const createBooks = async function (req, res) {
   try {
     const requestbody = req.body;
-    // let files = req.files;
+    const id = req.params.id;
+    let files = req.files;
     if (!isValidRequestBody(requestbody)) {
       return res
         .status(400)
         .send({ status: false, message: "Request body is empty" });
     }
 
-    const { title, excerpt, userId, ISBN, category, subcategory, releasedAt } =
+    const { title, excerpt, ISBN, category, subcategory, releasedAt } =
       requestbody;
 
     if (!isValid(title)) {
@@ -42,9 +43,9 @@ const createBooks = async function (req, res) {
         message: "Title is already present please provide unique title",
       });
     }
-    // if (req.files.length == 0) {
-    //      return res.status(400).send({ status: false, message: "bookCover is required" })
-    //  };
+    if (req.files.length == 0) {
+      return res.status(400).send({ status: false, message: "bookCover is required" })
+    };
 
     if (!isValid(excerpt)) {
       return res
@@ -52,24 +53,26 @@ const createBooks = async function (req, res) {
         .send({ status: false, message: " Excerpt must be present" });
     }
 
-    if (!isValid(userId)) {
+    if (!isValid(id)) {
       return res
         .status(400)
         .send({ status: false, message: " Excerpt is required" });
     }
 
-    if (!isValidObjectId(userId))
-      return res
-        .status(400)
-        .send({ status: false, message: `${userId}  is not a valid` });
+    const user = await userModel.findOne({ email: id });
 
-    const user = await userModel.findById(userId);
 
     if (!user) {
       return res
         .status(400)
         .send({ status: true, message: "User does not exist" });
     }
+    requestbody["userId"] = user._id.toString();
+    const userId = user._id.toString();
+    if (!isValidObjectId(userId))
+      return res
+        .status(400)
+        .send({ status: false, message: `${user._id.toString()}  is not a valid` });
 
     if (!isValid(ISBN)) {
       return res
@@ -119,8 +122,11 @@ const createBooks = async function (req, res) {
         message: "Please provide date in YYYY-MM-DD format",
       });
 
-    /* let uploadedFileURL = await uploadFile(files[0]);
-    requestbody["bookCover"] = uploadedFileURL; */
+
+    let uploadedFileURL = await uploadFile(files[0]);
+    requestbody["bookCover"] = uploadedFileURL;
+
+
 
     const newbookdata = await bookModel.create(requestbody);
     return res.status(201).send({
@@ -137,7 +143,18 @@ const createBooks = async function (req, res) {
 
 const getAllBooks = async function (req, res) {
   try {
+
+    // const UserId = req.params.UId || req.query;
+    // const getUser = await userModel.findOne({ email: UserId })
+
+    // if (!getUser) {
+    //   return res.status(404).send({ status: false, message: "not found" })
+    // }
+
+    // const user = getUser._id.toString();
+
     let list = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
+
     if (list.length == 0) {
       res.status(404).send({ status: false, message: "Books not found" });
     }
@@ -203,7 +220,7 @@ const getAllBooks = async function (req, res) {
 
     return res
       .status(200)
-      .send({ status: true, message: "Success", data: booklist });
+      .send({ status: true, message: "Success", data: list });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }

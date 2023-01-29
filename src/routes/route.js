@@ -25,9 +25,9 @@ router.post("/register", createUser);
 router.post("/login", loginUser);
 
 // ================>>Books APIs
-router.post("/books", authentication, createBooks);
-router.get("/books", authentication, getAllBooks);
-router.get("/books/:bookId", getBookById);
+router.post("/books/:id", authentication, createBooks);
+router.get("/books/:UId", authentication, getAllBooks);
+router.get("/bookss/:bookId", getBookById);
 router.put("/books/:bookId", authentication, authorisation, updateBookById);
 router.delete("/books/:bookId", authentication, authorisation, deleteBookById);
 

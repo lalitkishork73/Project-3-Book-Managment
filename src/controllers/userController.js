@@ -37,21 +37,21 @@ const createUser = async function (req, res) {
     }
     if (!isValid(name)) {
       return res
-      .status(400)
-      .send({ status: false, message: "name is required" });
+        .status(400)
+        .send({ status: false, message: "name is required" });
     }
     console.log("working");
 
-    let Phone=parseInt(phone);
-    
+    let Phone = parseInt(phone);
+
     console.log(Phone)
     if (isValid(Phone)) {
       return res
-      .status(400)
-      .send({ status: false, message: "Please enter the mobile number lalit" });
+        .status(400)
+        .send({ status: false, message: "Please enter the mobile number lalit" });
     }
     console.log("working");
-    
+
     if (!moblieRegex(Phone)) {
       return res.status(400).send({
         status: false,
@@ -186,11 +186,11 @@ const loginUser = async function (req, res) {
         organisation: "BooksWorld",
       },
       "Secretkey",
-      { expiresIn: "5m" }
+      { expiresIn: "1h" }
     );
 
-    res.setHeader("x-api-key", token);
-    res
+
+    return res
       .status(200)
       .send({ status: true, message: "author login successfuly", data: token });
   } catch (err) {
