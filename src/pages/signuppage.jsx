@@ -33,8 +33,9 @@ const Signuppage = () => {
     const postDat = async () => {
         try {
             const res = await axios.post(url, Data)
-            console.log("res", res.data);
-            console.log(Data);
+            // console.log("res", res.data);
+            // console.log(Data);
+            
 
         } catch (err) {
             console.log(err);
@@ -43,8 +44,8 @@ const Signuppage = () => {
     const setData = (e) => {
         e.preventDefault();
         postDat();
-        alert("submitted");
-        console.log(Data);
+        // alert("submitted");
+        // console.log(Data);
     }
 
     return (

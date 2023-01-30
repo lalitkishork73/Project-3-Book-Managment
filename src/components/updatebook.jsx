@@ -18,7 +18,7 @@ const TEXT_REGEX = /^\W*/;
 
 
 const Updatebook = ({ showMenuUpdate, active, Id }) => {
-    console.log(Id)
+    // console.log(Id)
     const firstref = useRef(0);
     const errRef = useRef();
 
