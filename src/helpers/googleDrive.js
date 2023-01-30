@@ -1,0 +1,1 @@
+const google =0;
