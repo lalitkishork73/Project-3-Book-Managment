@@ -32,6 +32,7 @@ const ModifieBook = () => {
                 setList(res.data.data)
             } catch (err) {
                 console.log(err)
+                setifData("BOOK NOT FOUND!")
             }
         }
 
@@ -80,7 +81,7 @@ const ModifieBook = () => {
                                                 <p className='p-1 w-auto h-16 overflow-hidden'>{items.excerpt} </p>
                                                 <p className='p-1'><span className='font-bold'>ISBN -</span>&nbsp; {items.ISBN}</p>
                                                 <p className=''><span className='bg-black text-white p-1 rounded-md text-xs'>Total Reviews </span> &nbsp;{items.reviews}</p>
-                                                <p className=''><span className='bg-black text-white p-1 rounded-md text-xs'>Published </span> &nbsp;{items.releasedAt}</p>
+                                                <p className=''><span className='bg-black text-white p-1 rounded-md text-xs'>Published </span> &nbsp;{items.releasedAt.slice(0, 10)}</p>
                                                 <div className='mt-5 flex justify-around'>
                                                     <button className='border-2 rounded-full p-2 border-yellow-500 hover:bg-yellow-500 text-yellow-500 hover:text-white'
                                                         onClick={() => {

@@ -104,7 +104,7 @@ const Newbook = () => {
             if (response?.data === undefined) {
                 console.log('server error');
             }
-            
+
 
             if (response?.data?.status === true) {
                 setSuccess(true);
@@ -146,7 +146,8 @@ const Newbook = () => {
         const v5 = TEXT_REGEX.test(subcategory);
         const v6 = FILE_REGEX.test(file.name);
 
-        if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6) {
+
+        if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6 || !date) {
             setErrMsg('Invalid Entry!');
             return;
         }

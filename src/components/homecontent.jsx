@@ -25,6 +25,7 @@ const Homecontent = () => {
             }
             catch (err) {
                 console.error(err.message)
+                setErr("data not found")
             }
         }
 
@@ -36,19 +37,19 @@ const Homecontent = () => {
         <>
             <div className='flex justify-center bg-gradient-to-r from-blue-400 to-emerald-400'>
                 {errr ? <>
-                <div className='h-[50vh] flex justify-center items-center'>
-                    <h1 className='text-white text-4xl text-center'>Book Not Found!</h1>
-                </div>
+                    <div className='h-[50vh] flex justify-center items-center'>
+                        <h1 className='text-white text-4xl text-center'>Book Not Found!</h1>
+                    </div>
                 </> : <>
                     <div className='p-10 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-3  bg-[#fdfdfd80] w-[100%] md:w-[65%]' >
 
                         {
                             list.map((item, id) => (
                                 <>
-                                    <div key={id} className='flex flex-col drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#edf5fc] w-auto p-1'>
+                                    <div key={id + 1} className='flex flex-col drop-shadow-xl rounded-xl bg-[#fdfdfd] backdrop-blur-sm h-auto hover:bg-[#edf5fc] w-auto p-1'>
                                         <div className='rounded-xl flex
             justify-center w-auto bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r'>
-                                            <img className='rounded-xl min-w-[10rem] max-h-[15rem]' src={poster} />
+                                            <img className='rounded-xl min-w-[10rem] max-h-[15rem]' src={!item?.bookCover ? poster : item.bookCover} />
                                         </div>
                                         <div className='flex flex-col text-center md:text-justify p-5 w-auto text-sm'>
                                             <h1 className='font-bold mb-2 uppercase'>{item.title}</h1>

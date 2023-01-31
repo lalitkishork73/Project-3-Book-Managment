@@ -21,24 +21,24 @@ const MenuBar = ({ showMenu, active }) => {
                     }
                 >
                     <FaWindowClose onClick={showMenu} className="mx-4 scale-120 " />
-                    <li className=''>
+                    <li className='' onClick={showMenu}>
                         <NavLink to='/'><h1 className='hover:text-yellow-200 hover:scale-105'>Home</h1></NavLink>
                     </li>
-                    <li className=''>
+                    <li className='' onClick={showMenu}>
                         <NavLink to='/books'><h1 className='hover:text-yellow-200 hover:scale-105'>Publish Books</h1></NavLink>
                     </li>
                     {
                         auth?.accessToken ?
                             <>
-                                <li>
+                                <li onClick={showMenu}>
                                     <NavLink to="signup"><h1 className='hover:text-yellow-200 hover:scale-105' onClick={logout}>LogOut</h1></NavLink>
                                 </li>
                             </>
                             : <>
-                                <li className=' '>
+                                <li className=' ' onClick={showMenu}>
                                     <NavLink to="login"><h1 className='hover:text-yellow-200 hover:scale-105'>LogIn</h1></NavLink>
                                 </li>
-                                <li>
+                                <li onClick={showMenu}>
                                     <NavLink to="signup"><h1 className='hover:text-yellow-200 hover:scale-105 '>SignUp</h1></NavLink>
                                 </li>
                             </>
