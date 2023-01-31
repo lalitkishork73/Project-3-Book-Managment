@@ -7,7 +7,7 @@ const inputT = `text-red-500 text-xs p-1 bg-black rounded-xs `
 const inputF = `hidden`
 const div = `flex flex-col`
 const TEXT_REGEX = /^\W*/;
-const USER_REGEX = /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{3,23}$/g;
+// const USER_REGEX = /^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{3,23}$/g;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
 const PHONE_REGEX = /^(?:(?:\+|0{0,2})91(\s*|[\-])?|[0]?)?([6789]\d{2}([-]?)\d{3}([-]?)\d{4})$/;
