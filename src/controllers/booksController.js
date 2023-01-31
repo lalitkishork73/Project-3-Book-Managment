@@ -1,6 +1,7 @@
 const bookModel = require("../models/booksModel");
 const userModel = require("../models/userModel");
 const reviewModel = require("../models/reviewModel");
+const { uploadFiles } = require("../helpers/googleDrive");
 
 //<=========================== VAlidation keys =========================>//
 
@@ -122,9 +123,24 @@ const createBooks = async function (req, res) {
         message: "Please provide date in YYYY-MM-DD format",
       });
 
+    // upload Files using AWS s3 bucket
+    // let uploadedFileURL = await uploadFile(files[0]);
+    // requestbody["bookCover"] = uploadedFileURL;
 
-    let uploadedFileURL = await uploadFile(files[0]);
-    requestbody["bookCover"] = uploadedFileURL;
+    //uload Files using Google Drive GCP
+
+    let fileResponse;
+    if (files && files.length > 0) {
+      fileResponse = await uploadFiles(files[0]);
+    }
+    else
+      return res
+        .status(400)
+        .send({ status: false, message: "Please Provide Document" });
+
+    let DocUrl = "https://drive.google.com/uc?export=view&id=" + fileResponse;
+
+    requestbody["bookCover"] = DocUrl;
 
 
 
