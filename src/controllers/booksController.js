@@ -157,7 +157,61 @@ const createBooks = async function (req, res) {
   }
 };
 
+//<=============Get all Books by user ===============================>//
+const getUsersAllBook = async (req, res) => {
+  try {
+    const userId = req.params.Id;
+
+    if (!userId) {
+      return res.status(400).send({ status: false, message: "Please provide id" });
+    }
+
+    const findUser = await userModel.findOne({ email: userId });
+
+    if (!findUser) {
+      return res.status(404).send({ status: false, message: "not userfound" });
+    }
+
+    const BookUserId = findUser._id.toString();
+
+    const findAllusersBook = await bookModel.find({ userId: BookUserId, isDeleted: false });
+
+    if (!findAllusersBook) {
+      return res.status(404).send({
+        status: false, message: "not Found Books!"
+      })
+    }
+
+    return res.status(200).send({ status: true, message: "data fetch successfully", data: findAllusersBook });
+
+  }
+  catch (err) {
+    return res.status(500).send({ status: false, message: err.message });
+  }
+}
+
+
 //<======================== Get all Books ===========================================>//
+
+const getAllListBook = async (req, res) => {
+  try {
+
+    let list = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
+
+    if (list.length == 0) {
+      return res.status(404).send({ status: false, message: "Books not found" });
+    }
+    return res
+      .status(200)
+      .send({ status: true, message: "Success", data: list });
+  }
+  catch (err) {
+    return res.status(500).send({ status: false, message: err.message });
+  }
+}
+
+
+//<======================== Search all Books by query ===========================================>//
 
 const getAllBooks = async function (req, res) {
   try {
@@ -264,50 +318,27 @@ const getBookById = async function (req, res) {
         .status(404)
         .send({ status: false, message: "Books not found." });
 
-    const {
-      title,
-      excerpt,
-      userId,
-      category,
-      ISBN,
-      reviews,
-      subcategory,
-      deletedAt,
-      isDeleted,
-      releasedAt,
-      createdAt,
-      updatedAt,
-    } = bookList;
-    let details = {
-      title,
-      excerpt,
-      userId,
-      ISBN,
-      category,
-      reviews,
-      subcategory,
-      deletedAt,
-      isDeleted,
-      releasedAt,
-      createdAt,
-      updatedAt,
-    };
-
     let getReview = await reviewModel
       .find({ bookId: bookId, isDeleted: false })
-      .select({
-        _id: 1,
-        bookId: 1,
-        reviewedBy: 1,
-        reviewedAt: 1,
-        rating: 1,
-        review: 1,
-      });
-    details["reviewData"] = getReview;
 
+    if (!getReview) {
+      return res.status(404).send({ status: false, message: "not found review" })
+    }
+
+    const updateBook = await bookModel.findOneAndUpdate({ _id: bookId, isDeleted: false },
+      { reviews: getReview.length }, { new: true }).select({ createdAt: 0, updatedAt: 0 });
+
+    if (!updateBook) {
+      return res.status(400).send({
+        status: false, message: "not able to fetch information"
+      })
+    }
+
+    updateBook._doc.reviewData = getReview;
+    // console.log(updateBook)
     return res
       .status(200)
-      .send({ status: true, message: "Success", data: details });
+      .send({ status: true, message: "Success", data: updateBook });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }
@@ -478,4 +509,6 @@ module.exports = {
   getBookById,
   updateBookById,
   deleteBookById,
+  getUsersAllBook,
+  getAllListBook
 };

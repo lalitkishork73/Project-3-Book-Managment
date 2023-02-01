@@ -76,14 +76,14 @@ const reviewByBookId = async function (req, res) {
     const data = { bookId, reviewedBy, reviewedAt, rating: newRating, review };
 
     const reviewdata = await reviewModel.create(data);
-    const reviewUpdate = await reviewModel
-      .findOne({ bookId: bookId, _id: reviewdata._id, isDeleted: false })
+    const reviewUpdate = await reviewModel.findOne({ bookId: bookId, _id: reviewdata._id, isDeleted: false })
       .select(["-createdAt", "-updatedAt", "-__v", "-isDeleted"]);
-    const reviewData = await reviewModel.find({ bookId: bookId });
+    const reviewData = await reviewModel.find({ bookId: bookId, isDeleted: false });
+    console.log(reviewData)
     if (reviewdata) {
       const updatedReview = await bookModel.findOneAndUpdate(
         { _id: bookId, isDeleted: false },
-        { reviews: reviewData.length},
+        { reviews: reviewData.length },
         { new: true }
       );
 

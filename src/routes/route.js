@@ -10,6 +10,8 @@ const {
   getBookById,
   updateBookById,
   deleteBookById,
+  getUsersAllBook,
+  getAllListBook
 } = require("../controllers/booksController");
 const {
   reviewByBookId,
@@ -28,6 +30,7 @@ router.post("/login", loginUser);
 router.post("/books/:id", authentication, createBooks);
 router.get("/books/:UId", authentication, getAllBooks);
 router.get("/bookss/:bookId", getBookById);
+router.get("/userbooks/:Id", authentication, getUsersAllBook);
 router.put("/books/:bookId", authentication, authorisation, updateBookById);
 router.delete("/books/:bookId", authentication, authorisation, deleteBookById);
 
@@ -35,6 +38,6 @@ router.delete("/books/:bookId", authentication, authorisation, deleteBookById);
 router.post("/books/:bookId/review", reviewByBookId);
 router.put("/books/:bookId/review/:reviewId", reviewUpdateByBookId);
 router.delete("/books/:bookId/review/:reviewId", reviewDeleteByBookId);
-router.get("/mbooks", getAllBooks);
+router.get("/mbooks", getAllListBook);
 
 module.exports = router;

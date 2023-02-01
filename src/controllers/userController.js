@@ -186,7 +186,7 @@ const loginUser = async function (req, res) {
         organisation: "BooksWorld",
       },
       "Secretkey",
-      { expiresIn: "1h" }
+      { expiresIn: "5m" }
     );
 
 
