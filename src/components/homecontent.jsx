@@ -16,7 +16,7 @@ const Homecontent = () => {
                     url: 'http://localhost:3001/mbooks'
                 })
                 // console.log(res.data.status == true)
-                console.log(res.data.data.length == 0, "data")
+                // console.log(res.data.data.length == 0, "data")
                 if (res.data.data.length == 0) {
                     setErr("data not found")
                 }
