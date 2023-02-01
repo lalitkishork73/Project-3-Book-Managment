@@ -14,7 +14,7 @@ const {
 const reviewByBookId = async function (req, res) {
   try {
     const params = req.params.bookId;
-    console.log(params);
+    // console.log(params);
 
     if (!isValid(params))
       return res
@@ -37,7 +37,7 @@ const reviewByBookId = async function (req, res) {
       });
     }
 
-    console.log(rating);
+    // console.log(rating);
     if (!isValid(rating)) {
       return res
         .status(400)
@@ -50,7 +50,7 @@ const reviewByBookId = async function (req, res) {
         .send({ status: false, message: "number must be 1 to 5" });
     }
     const newRating = parseInt(rating);
-    console.log(typeof newRating, newRating);
+    // console.log(typeof newRating, newRating);
 
     if (!isValid(review)) {
       return res
@@ -73,17 +73,17 @@ const reviewByBookId = async function (req, res) {
 
     const reviewedAt = new Date();
 
-    const data = { bookId, reviewedBy, reviewedAt, rating:newRating, review };
+    const data = { bookId, reviewedBy, reviewedAt, rating: newRating, review };
 
     const reviewdata = await reviewModel.create(data);
     const reviewUpdate = await reviewModel
       .findOne({ bookId: bookId, _id: reviewdata._id, isDeleted: false })
       .select(["-createdAt", "-updatedAt", "-__v", "-isDeleted"]);
-    const reviewData = await reviewModel.find();
+    const reviewData = await reviewModel.find({ bookId: bookId });
     if (reviewdata) {
       const updatedReview = await bookModel.findOneAndUpdate(
         { _id: bookId, isDeleted: false },
-        { reviews: reviewData.length - 1 },
+        { reviews: reviewData.length},
         { new: true }
       );
 

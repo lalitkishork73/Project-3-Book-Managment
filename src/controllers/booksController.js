@@ -123,6 +123,8 @@ const createBooks = async function (req, res) {
         message: "Please provide date in YYYY-MM-DD format",
       });
 
+    requestbody["releasedAt"] = releasedAt.slice(0, 10)
+
     // upload Files using AWS s3 bucket
     // let uploadedFileURL = await uploadFile(files[0]);
     // requestbody["bookCover"] = uploadedFileURL;
@@ -172,7 +174,7 @@ const getAllBooks = async function (req, res) {
     let list = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
 
     if (list.length == 0) {
-      res.status(404).send({ status: false, message: "Books not found" });
+      return res.status(404).send({ status: false, message: "Books not found" });
     }
 
     let query = req.query;

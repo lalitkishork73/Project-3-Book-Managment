@@ -18,6 +18,7 @@ const createUser = async function (req, res) {
     const requestbody = req.body;
     const { title, name, phone, email, password, address } = requestbody;
 
+
     if (!isValidRequestBody(requestbody)) {
       return res
         .status(400)
@@ -40,17 +41,17 @@ const createUser = async function (req, res) {
         .status(400)
         .send({ status: false, message: "name is required" });
     }
-    console.log("working");
+
 
     let Phone = parseInt(phone);
 
-    console.log(Phone)
+
     if (isValid(Phone)) {
       return res
         .status(400)
         .send({ status: false, message: "Please enter the mobile number lalit" });
     }
-    console.log("working");
+
 
     if (!moblieRegex(Phone)) {
       return res.status(400).send({
@@ -112,9 +113,8 @@ const createUser = async function (req, res) {
 
     //<============>>>> User with address <<<<====================>//
 
-
     const userData = await userModel.create(requestbody);
-    console.log("working", userData);
+  
     return res.status(201).send({
       status: true,
       message: "sucessfully saved",
