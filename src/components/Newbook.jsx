@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
+import { Navigate } from 'react-router-dom';
 import { SiTeradata } from 'react-icons/si'
 import useAuth from '../hooks/auth'
 
@@ -22,7 +23,7 @@ const FILE_REGEX = /\.(jpg|jpeg|png|gif)$/
 const Newbook = () => {
     const URL = `http://localhost:3001/books`
 
-    const { auth } = useAuth()
+    const { auth, setAuth } = useAuth()
 
     const firstref = useRef(0);
     const errRef = useRef();
@@ -127,7 +128,11 @@ const Newbook = () => {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {
                 setErrMsg('Username Taken');
-            } else {
+            } else if (err.response?.status === 401) {
+                setAuth('')
+                Navigate('/login')
+            }
+            else {
                 setErrMsg('Registration Failed')
             }
             errRef.current.focus();

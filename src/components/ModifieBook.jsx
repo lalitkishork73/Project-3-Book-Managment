@@ -4,11 +4,11 @@ import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import Updatebook from './updatebook'
 import useAuth from '../hooks/auth'
 import axios from 'axios'
-
+import { Navigate } from 'react-router-dom'
 const ModifieBook = () => {
     const [active, setActive] = useState(false);
     const [list, setList] = useState([]);
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const Id = auth?.email;
     const [bookId, setBookid] = useState(false);
     const [ifData, setifData] = useState('');
@@ -18,21 +18,25 @@ const ModifieBook = () => {
         const getData = async () => {
             try {
 
-                const URL = `http://localhost:3001/books/${Id}`
+                const URL = `http://localhost:3001/userbooks/${Id}`
                 axios.defaults.headers.common = {
                     "x-Api-key": auth?.accessToken
                 }
 
                 const res = await axios.get(URL);
                 // console.log(res.data.data)
-                if (!res) {
+                // console.log(res.data.data.length == 0)
+                if (res.data.data.length == 0) {
                     setifData("BOOK NOT FOUND!")
                 }
-
                 setList(res.data.data)
             } catch (err) {
-                console.log(err)
-                setifData("BOOK NOT FOUND!")
+                console.log(err.response)
+                if (err.response?.status === 401) {
+                    
+                    setAuth('')
+                    Navigate('/login')
+                }
             }
         }
 

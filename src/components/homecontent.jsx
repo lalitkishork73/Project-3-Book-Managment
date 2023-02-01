@@ -16,16 +16,15 @@ const Homecontent = () => {
                     url: 'http://localhost:3001/mbooks'
                 })
                 // console.log(res.data.status == true)
-                // console.log(res.data.data, "data")
-                if (res.data.status == true) {
-                    setList(res.data.data)
-                } else if (res?.data.status == false || !res) {
+                console.log(res.data.data.length == 0, "data")
+                if (res.data.data.length == 0) {
                     setErr("data not found")
                 }
+                setList(res.data.data)
             }
             catch (err) {
                 console.error(err.message)
-                setErr("data not found")
+                // setErr("data not found")
             }
         }
 
