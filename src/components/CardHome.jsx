@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import poster from '../assets/poster.png';
+import poster from '../assets/poster.png';  
 
 const CardHome = ({ item, index }) => {
     return (
