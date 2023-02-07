@@ -44,6 +44,7 @@ const createBooks = async function (req, res) {
         message: "Title is already present please provide unique title",
       });
     }
+    requestbody["title"] = title.toLowerCase();
     if (req.files.length == 0) {
       return res.status(400).send({ status: false, message: "bookCover is required" })
     };
@@ -217,40 +218,47 @@ const getAllBooks = async function (req, res) {
   try {
 
     // const UserId = req.params.UId || req.query;
-    // const getUser = await userModel.findOne({ email: UserId })
+    // console.log(UserId);
+    /* const getUser = await userModel.findOne({ email: UserId })
 
-    // if (!getUser) {
-    //   return res.status(404).send({ status: false, message: "not found" })
-    // }
-
-    // const user = getUser._id.toString();
-
-    let list = await bookModel.find({ isDeleted: false }).sort({ title: 1 });
-
-    if (list.length == 0) {
-      return res.status(404).send({ status: false, message: "Books not found" });
+    if (!getUser) {
+      return res.status(404).send({ status: false, message: "not found" })
     }
 
+    const user = getUser._id.toString(); */
+
     let query = req.query;
+    // console.log(query)
 
     if (!isValidRequestBody(query))
       return res
         .status(200)
-        .send({ status: true, message: "Success Without query", data: list });
+        .send({ status: true, message: "Success Without query", data: user });
 
-    let { userId, category, subcategory } = query;
+    let { user, category, subcategory, title } = query;
 
     const filter = { isDeleted: false };
 
-    if (userId) {
-      if (isValid(userId)) {
-        if (!isValidObjectId(userId)) {
+    // console.log(user)
+
+    if (user) {
+      if (isValid(user)) {
+        const userId = await userModel.findOne({ name: user })
+        if (!isValidObjectId(userId._id.toString())) {
           return res.status(400).send({
             status: false,
             message: `User id ${userId} is not valid`,
           });
         }
-        filter["userId"] = userId;
+        // console.log(userId)
+        filter["userId"] = userId._id.toString();
+      }
+    }
+
+    if (title) {
+      if (isValid(title)) {
+        // console.log(title)
+        filter["title"] = title
       }
     }
 
@@ -292,7 +300,7 @@ const getAllBooks = async function (req, res) {
 
     return res
       .status(200)
-      .send({ status: true, message: "Success", data: list });
+      .send({ status: true, message: "Success", data: booklist });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }

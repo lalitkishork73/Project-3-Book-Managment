@@ -28,7 +28,7 @@ router.post("/login", loginUser);
 
 // ================>>Books APIs
 router.post("/books/:id", authentication, createBooks);
-router.get("/books/:UId", authentication, getAllBooks);
+router.get("/books/", getAllBooks);
 router.get("/bookss/:bookId", getBookById);
 router.get("/userbooks/:Id", authentication, getUsersAllBook);
 router.put("/books/:bookId", authentication, authorisation, updateBookById);
