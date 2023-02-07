@@ -21,7 +21,7 @@ const Homecontent = () => {
             }
             const response = await axios.get(`http://localhost:3001/books?${key}=${search}`);
 
-            console.log(response.data.data)
+            // console.log(response.data.data)
             setsearchData(response.data.data);
 
         } catch (err) {
