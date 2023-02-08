@@ -65,7 +65,7 @@ const Homecontent = () => {
                     onChange={(e) => { setKey(e.target.value) }}>
                     <option value="title">Title</option>
                     <option value="category">Catagory</option>
-                    <option value="subcategory">Subcategory</option>
+                    <option value="subcategory">Subcategory </option>
                     <option value="user">User</option>
                 </select>
                 <input type="text" placeholder="Search" className='pl-2 p-2 w-[100%] sm:w-[30%] bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:sky-500 block sm:text-sm'
