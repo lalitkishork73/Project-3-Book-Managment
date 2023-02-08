@@ -63,6 +63,7 @@ const Homecontent = () => {
             <div className=' flex justify-center bg-black p-7 '>
                 <select id="cars" name="cars" className='rounded-l-md text-center text-sm focus:outline-none focus:border-sky-500 bg-sky-50 text-slate-600'
                     onChange={(e) => { setKey(e.target.value) }}>
+                    <option value="" selected disabled hidden>Search Option</option>
                     <option value="title">Title</option>
                     <option value="category">Catagory</option>
                     <option value="subcategory">Subcategory </option>
