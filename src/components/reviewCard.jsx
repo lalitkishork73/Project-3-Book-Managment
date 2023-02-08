@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FaWindowClose } from "react-icons/fa";
-import axios from 'axios';
+import axios from '../hooks/axios';
 
 const ReviewCard = ({ showMenuCreate, active, Id }) => {
-    const url = `http://localhost:3001/books/${Id}/review`;
+    const url = `books/${Id}/review`;
     const [ratingg, setRating] = useState("");
     const [reviewer, setReviewer] = useState("");
     const [reviews, setReview] = useState("");

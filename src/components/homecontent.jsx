@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import axios from '../hooks/axios';
 import { BiSearchAlt2 } from 'react-icons/bi'
 import CardHome from './CardHome'
 
@@ -19,7 +19,7 @@ const Homecontent = () => {
             if (search == '') {
                 setsearchData('');
             }
-            const response = await axios.get(`http://localhost:3001/books?${key}=${search}`);
+            const response = await axios.get(`books?${key}=${search}`);
 
             // console.log(response.data.data)
             setsearchData(response.data.data);
@@ -35,10 +35,7 @@ const Homecontent = () => {
 
     const getData = async () => {
         try {
-            const res = await axios({
-                method: 'get',
-                url: 'http://localhost:3001/mbooks'
-            })
+            const res = await axios.get('mbooks')
             // console.log(res.data.status == true)
             // console.log(res.data.data.length == 0, "data")
             if (res.data.data.length == 0) {

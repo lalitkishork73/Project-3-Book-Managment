@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import useAuth from '../hooks/auth'
-import axios from 'axios';
+import axios from '../hooks/axios';
 // import bg from '../assets/bg-auth.jpg';
 
 const inputT = `text-red-500 text-xs mt-1 p-1 bg-black rounded-xl `
@@ -15,7 +15,7 @@ const EMAIL_REGEX = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
 
 
 const Loginpage = () => {
-    const url = `http://localhost:3001/login`;
+    const url = `login`;
     const userRef = useRef();
     const errRef = useRef();
     const { setAuth } = useAuth();

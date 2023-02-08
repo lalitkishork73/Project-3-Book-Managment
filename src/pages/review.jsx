@@ -4,7 +4,7 @@ import { AiTwotoneEdit, AiFillStar, AiFillDelete } from 'react-icons/ai'
 import UpdateReview from '../components/updateReview';
 import { useLocation, useParams } from 'react-router-dom'
 import poster from '../assets/poster.png';
-import axios from 'axios';
+import axios from '../hooks/axios';
 import { FaUserAstronaut } from 'react-icons/fa'
 
 
@@ -27,7 +27,7 @@ const Review = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await axios.get(`http://localhost:3001/bookss/${id}`);
+                const res = await axios.get(`bookss/${id}`);
                 setDb(res.data.data);
                 setRewlist(res.data.data.reviewData)
                 // console.log(res.data.data.reviewData[0]._id)
@@ -41,7 +41,7 @@ const Review = () => {
 
     const deleteReview = async (data) => {
         try {
-            const DEL_URL = `http://localhost:3001/books/${id}/review/${data}`;
+            const DEL_URL = `books/${id}/review/${data}`;
 
             await axios.delete(DEL_URL);
             // const res = await axios.get(URL, { headers: { Authorization: `Bearer ${token}` } })

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { NavLink, Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../hooks/axios';
 const labelS = 'text-xs text-yellow-500'
 const inputS = 'rounded-sm p-2 border-b-2 text-sm focus:outline-teal-500 bg-transparent'
 const inputT = `text-red-500 text-xs p-1 bg-black rounded-xs `

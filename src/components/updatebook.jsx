@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../hooks/axios';
 import React, { useState, useEffect, useRef } from 'react'
 import { FaWindowClose } from 'react-icons/fa'
 import useAuth from '../hooks/auth'
@@ -41,7 +41,7 @@ const Updatebook = ({ showMenuUpdate, active, Id }) => {
 
     const [test, setTest] = useState(false)
     const { auth } = useAuth();
-    const URL = `http://localhost:3001/books/${Id}`
+    const URL = `books/${Id}`
 
 
 

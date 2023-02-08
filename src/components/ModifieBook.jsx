@@ -3,7 +3,7 @@ import poster from '../assets/poster.png'
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import Updatebook from './updatebook'
 import useAuth from '../hooks/auth'
-import axios from 'axios'
+import axios from '../hooks/axios';
 import { Navigate } from 'react-router-dom'
 const ModifieBook = () => {
     const [active, setActive] = useState(false);
@@ -18,7 +18,7 @@ const ModifieBook = () => {
         const getData = async () => {
             try {
 
-                const URL = `http://localhost:3001/userbooks/${Id}`
+                const URL = `userbooks/${Id}`
                 axios.defaults.headers.common = {
                     "x-Api-key": auth?.accessToken
                 }
@@ -33,7 +33,7 @@ const ModifieBook = () => {
             } catch (err) {
                 console.log(err.response)
                 if (err.response?.status === 401) {
-                    
+
                     setAuth('')
                     Navigate('/login')
                 }
@@ -47,7 +47,7 @@ const ModifieBook = () => {
 
     const deleteBooks = async (id) => {
         // console.log(id)
-        const URL = `http://localhost:3001/books/${id}`
+        const URL = `books/${id}`
         try {
             await axios.delete(URL)
         } catch (err) {
@@ -77,7 +77,7 @@ const ModifieBook = () => {
                                         <div key={id} className='md:flex-row drop-shadow-xl w-auto rounded-xl gap-2 bg-gradient-to-tl from-green-300 via-yellow-300 to-pink-300 text-sm '>
                                             <div className='md:rounded-l-xl flex
                                 justify-center w-auto h-auto pr-2'>
-                                                <img className='rounded-xl md:rounded-l-xl min-w-[10rem] max-h-[15rem]' src={poster} />
+                                                <img className='rounded-xl md:rounded-l-xl min-w-[10rem] max-h-[15rem]' src={items.bookCover} />
                                             </div>
                                             <div className='flex flex-col text-center md:text-justify p-2 w-[100%] bg-white rounded-b-lg  sm:rounded-r-lg '>
                                                 <h1 className='font-bold mb-2'>{items.title}</h1>

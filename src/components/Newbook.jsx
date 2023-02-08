@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../hooks/axios';
 import { Navigate } from 'react-router-dom';
 import { SiTeradata } from 'react-icons/si'
 import useAuth from '../hooks/auth'
@@ -21,7 +21,7 @@ const FILE_REGEX = /\.(jpg|jpeg|png|gif)$/
 
 
 const Newbook = () => {
-    const URL = `http://localhost:3001/books`
+    const URL = `books`
 
     const { auth, setAuth } = useAuth()
 

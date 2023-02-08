@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { FaWindowClose } from "react-icons/fa";
-import axios from 'axios';
+import axios from '../hooks/axios';
 
 const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
     // console.log(RId,"two");
-    const url = `http://localhost:3001/books/${Id}/review/${RId}`;
+    const url = `books/${Id}/review/${RId}`;
     const [ratingg, setRating] = useState("");
     const [reviewer, setReviewer] = useState("");
     const [reviews, setReview] = useState("");
@@ -32,16 +32,10 @@ const UpdateReview = ({ showMenuUpdate, actives, Id, RId }) => {
             console.log(err);
         }
     }
-
-
     const postData = (e) => {
         e.preventDefault();
         postDat();
-
     }
-
-
-
     return (
         <>
             <div className={actives
