@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReviewCard from '../components/reviewCard';
 import { AiTwotoneEdit, AiFillStar, AiFillDelete } from 'react-icons/ai'
 import UpdateReview from '../components/updateReview';
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import poster from '../assets/poster.png';
 import axios from '../hooks/axios';
 import { FaUserAstronaut } from 'react-icons/fa'
