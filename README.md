@@ -1,19 +1,4 @@
 # Project-3-Book-Managment
-This app will deal with books
-
-A book management website is a platform that helps individuals organize and keep track of their book collection. It provides tools to catalog books, search through the collection, and manage information such as author, title, ISBN, and publication date. The website helps users manage their books, keep them organized, and access information about their collection quickly and easily.
-
-if you want use this application you need mongoDB atlas client id & password, aws s3 configuration, Google cloud api with credential and json file to work properly this app.
-
-There is few steps that you have to run first 
-
-1-->
-## npm i
-for base directory node modules
-
-2-->
-## npm run depi 
-above command is use for install node modules in client and server together
 
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
@@ -54,31 +39,6 @@ above command is use for install node modules in client and server together
 
 
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
 
 
 
@@ -87,14 +47,8 @@ above command is use for install node modules in client and server together
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+A book management website is a platform that helps individuals organize and keep track of their book collection. It provides tools to catalog books, search through the collection, and manage information such as author, title, ISBN, and publication date. The website helps users manage their books, keep them organized, and access information about their collection quickly and easily.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
 
 Use the `BLANK_README.md` to get started.
 
@@ -137,20 +91,37 @@ This is an example of how to list things you need to use the software and how to
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+<!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/lalitkishork73/Project-3-Book-Managment.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Install node modules in client and server together
+   ```sh
+   npm run depi 
    ```
+4. Add .env into  "server/" directory with your credentials given Exapmle below use your own credential.
+    ```.env
+   AWS_ID="ASKDdk23432452131"
+   AWS_KEY="cLM+L96k5VVsadac342/al6xMusax+Usr/dadNE"
+   GOOGLE_API_FOLDER_ID="2gBDeJ6ggp988SFDesd2mgwaONrnP7FFz_U"
+   MONGO_AUTH="mongodb+srv://user:Password@cluster0.o2wavxe.mongodb.net/DataDB?retryWrites=true&w=majority"     
+    
+    ```
+5.Add google api key json file into "server/src/helpers/" 
+   for this file you have to generate json key file from google cloud services and activate google drive api 
+   then download json file from GCP and change file name to googlekey.json 
+   add this file in server/src/helpers/
+   watch this for more details https://www.youtube.com/watch?v=Z2MCxblgPoc&t=29s
 
+6.and then run fullstack app from base folder
+```sh
+   npm start
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -164,59 +135,5 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
