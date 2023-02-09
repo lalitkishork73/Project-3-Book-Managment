@@ -8,10 +8,10 @@ if you want use this application you need mongoDB atlas client id & password, aw
 There is few steps that you have to run first 
 
 1-->
-##npm i
+## npm i
 for base directory node modules
 
 2-->
-##npm run depi 
+## npm run depi 
 above command is use for install node modules in client and server together
 
