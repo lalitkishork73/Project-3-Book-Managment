@@ -1,5 +1,5 @@
 client/node_modules
 server/node_modules
-server/src/helpers/googlekey.json
+# server/src/helpers/googlekey.json
 server/.env
 node_modules
