@@ -22,7 +22,7 @@ function App() {
         <Route path="/signup" element={<Signuppage />} />
         <Route path="/review/:id" element={<Review />} />
         <Route element={<RequireAuth />}>
-          <Route path="/books" element={<Bookpage />} >
+          <Route path="/allbooks" element={<Bookpage />} >
             <Route index="true" element={<Newbook />} />
             <Route path="update" element={<ModifieBook />} />
           </Route>
