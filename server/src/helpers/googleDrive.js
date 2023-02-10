@@ -1,7 +1,7 @@
 const stream = require('stream');
 const { google } = require('googleapis');
 const path = require('path');
-const fs = require('node:fs')
+const fs = require('fs')
 const GOOGLE_API_FOLDER_ID = process.env.GOOGLE_API_FOLDER_ID;
 const KeyFilePath = path.join(__dirname, 'googlekey.js');
 const { Key } = require(KeyFilePath)
