@@ -75,7 +75,7 @@ const Signuppage = () => {
     }, [name, password, matchPwd, email, phone])
 
 
-    const url = `http://localhost:3001/register`;
+    const url = `register`;
 
     const postDat = async (formData) => {
         try {

@@ -24,7 +24,7 @@ const { authentication, authorisation } = require("../middlewares/auth");
 
 // ================>>User APIs
 router.post("/register", createUser);
-router.post("/login", loginUser);
+router.post("/Login", loginUser);
 
 // ================>>Books APIs
 router.post("/books/:id", authentication, createBooks);

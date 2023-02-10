@@ -15,7 +15,7 @@ const EMAIL_REGEX = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
 
 
 const Loginpage = () => {
-    const url = `login`;
+    const url = `Login`;
     const userRef = useRef();
     const errRef = useRef();
     const { setAuth } = useAuth();
