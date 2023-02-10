@@ -9,8 +9,8 @@ const app = express();
 const testPort = 3001;
 const multer = require("multer");
 const cors = require("cors");
-
-app.use(express.static(path.join(__dirname,'../','/public') ))
+console.log(path.join(__dirname,'../../','/client','/build') )
+app.use(express.static(path.join(__dirname,'../../','/client','/build') ))
 app.use(bodyParser.json())
 app.use(multer().any())
 app.use(cors());
