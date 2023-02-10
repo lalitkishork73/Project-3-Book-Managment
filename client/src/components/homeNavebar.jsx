@@ -40,7 +40,7 @@ const Homenavebar = () => {
               <NavLink to='/'><h1 className='hover:text-yellow-200 hover:scale-105'>Home</h1></NavLink>
             </li>
             <li className='mr-9'>
-              <NavLink to='/books'><h1 className='hover:text-yellow-200 hover:scale-105'>Publish Books</h1></NavLink>
+              <NavLink to='/allbooks'><h1 className='hover:text-yellow-200 hover:scale-105'>Publish Books</h1></NavLink>
             </li>
             {
               auth?.accessToken ?

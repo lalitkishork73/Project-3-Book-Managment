@@ -25,7 +25,7 @@ const MenuBar = ({ showMenu, active }) => {
                         <NavLink to='/'><h1 className='hover:text-yellow-200 hover:scale-105'>Home</h1></NavLink>
                     </li>
                     <li className='' onClick={showMenu}>
-                        <NavLink to='/books'><h1 className='hover:text-yellow-200 hover:scale-105'>Publish Books</h1></NavLink>
+                        <NavLink to='/allbooks'><h1 className='hover:text-yellow-200 hover:scale-105'>Publish Books</h1></NavLink>
                     </li>
                     {
                         auth?.accessToken ?
