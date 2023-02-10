@@ -4,7 +4,7 @@ const path = require('path');
 // const fs = require('fs')
 const GOOGLE_API_FOLDER_ID = process.env.GOOGLE_API_FOLDER_ID;
 
-const Keyfile = path.join(__dirname, 'googlekey.json');
+const Keyfile = path.join(__dirname,'../../', 'googlekey.json');
 const uploadFiles = async (file) => {
     try {
         const bufferStream = new stream.PassThrough();
