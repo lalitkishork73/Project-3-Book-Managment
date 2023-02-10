@@ -2,7 +2,8 @@ const stream = require('stream');
 const { google } = require('googleapis');
 const path = require('path');
 const GOOGLE_API_FOLDER_ID = process.env.GOOGLE_API_FOLDER_ID;
-const KeyFilePath = path.join(__dirname, 'googlekey.json');
+// const KeyFilePath = path.join(__dirname, 'googlekey.json');
+const { Key } = require('./googlekey')
 
 const uploadFiles = async (file) => {
     try {
@@ -11,7 +12,8 @@ const uploadFiles = async (file) => {
 
 
         const auth = new google.auth.GoogleAuth({
-            keyFile: KeyFilePath,
+            keyFile: JSON.stringify(Key),
+            // keyFile: KeyFilePath,
             scopes: ['https://www.googleapis.com/auth/drive']
         });
 
