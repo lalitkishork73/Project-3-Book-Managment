@@ -2,7 +2,7 @@ const stream = require('stream');
 const { google } = require('googleapis');
 const path = require('path');
 const GOOGLE_API_FOLDER_ID = process.env.GOOGLE_API_FOLDER_ID;
-const KeyFilePath = path.join(__dirname, 'googleKey.json');
+const KeyFilePath = path.join(__dirname, 'googlekey.json');
 
 const uploadFiles = async (file) => {
     try {
