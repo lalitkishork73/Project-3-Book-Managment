@@ -6,10 +6,10 @@ const route = require("./routes/route");
 const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
-const testPort = 3001;
+const testPort = 3001;  
 const multer = require("multer");
 const cors = require("cors");
-const favicon = require('express-favicon');
+const favicon = require('serve-favicon');
 
 // console.log(path.join(__dirname,'../../','/client','/build') )
 app.use(express.static(path.join(__dirname, '../../', '/client', '/build')))
