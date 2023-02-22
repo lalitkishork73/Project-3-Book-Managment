@@ -9,6 +9,7 @@ const CLIENT_SECRET=process.env.CLIENT_SECRET
 const ACCESS_TOKEN=process.env.ACCESS_TOKEN
 const REFRESH_TOKEN=process.env.REFRESH_TOKEN
 
+// there lots of way to implement google drive setup only you have to decide which method do you required.
 
 // const Keyfile = path.join(__dirname,'../../', 'googlekey.json');
 const uploadFiles = async (file) => {
