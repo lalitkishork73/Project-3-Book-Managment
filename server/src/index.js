@@ -9,9 +9,11 @@ const app = express();
 const testPort = 3001;
 const multer = require("multer");
 const cors = require("cors");
+const favicon = require('express-favicon');
+
 // console.log(path.join(__dirname,'../../','/client','/build') )
 app.use(express.static(path.join(__dirname, '../../', '/client', '/build')))
-app.use(express.favicon(__dirname, '../../', '/client/public/favicon.ico'));
+app.use(favicon(__dirname, '../../', '/client','/public/favicon.ico'));
 app.use(bodyParser.json())
 app.use(multer().any())
 app.use(cors());
