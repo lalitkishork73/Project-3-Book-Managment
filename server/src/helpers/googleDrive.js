@@ -32,7 +32,7 @@ const uploadFiles = async (file) => {
             expiry_date: EXPIRY_TIME,
         });
 
-        console.log(auth)
+        // console.log(auth)
 
         const driveService = google.drive({
             version: 'v3',
