@@ -29,6 +29,8 @@ mongoose
 
 app.use("/", route);
 
+
+// Avoiding Refresh Error for static react app
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '../../', '/client', '/build','index.html'));
 });
