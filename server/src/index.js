@@ -28,9 +28,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/", route);
-app.use("*", (req, res) => {
-  res.status(404).send({ status: false, message: "Please Enter Valid URL" });
-});
+
 
 app.listen(process.env.PORT || testPort, function () {
   console.log("Express app running on port " + (process.env.PORT || testPort));
