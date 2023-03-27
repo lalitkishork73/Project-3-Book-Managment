@@ -29,6 +29,10 @@ mongoose
 
 app.use("/", route);
 
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../../', '/client', '/build','index.html'));
+});
+
 
 app.listen(process.env.PORT || testPort, function () {
   console.log("Express app running on port " + (process.env.PORT || testPort));
